@@ -1,0 +1,7 @@
+/Users/ericnguyen/Documents/School/CS56/TheClaremontTrials/build/CMakeFiles/install/local.dir
+/Users/ericnguyen/Documents/School/CS56/TheClaremontTrials/build/CMakeFiles/install/strip.dir
+/Users/ericnguyen/Documents/School/CS56/TheClaremontTrials/build/CMakeFiles/uMario.dir
+/Users/ericnguyen/Documents/School/CS56/TheClaremontTrials/build/CMakeFiles/install.dir
+/Users/ericnguyen/Documents/School/CS56/TheClaremontTrials/build/CMakeFiles/list_install_components.dir
+/Users/ericnguyen/Documents/School/CS56/TheClaremontTrials/build/CMakeFiles/rebuild_cache.dir
+/Users/ericnguyen/Documents/School/CS56/TheClaremontTrials/build/CMakeFiles/edit_cache.dir
