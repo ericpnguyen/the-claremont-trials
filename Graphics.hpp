@@ -9,6 +9,7 @@
 #include <SDL_image.h>
 #endif
 #include <stdio.h>
+#include <string>
 
 class Graphics {
 
@@ -20,13 +21,23 @@ private:
 	static Graphics* sInstance;
 	static bool sInitialized;
 
+
 	SDL_Window* mWindow;
 	SDL_Surface* mBackBuffer;
+
+	SDL_Renderer* mRenderer;
+
 
 public:
 	static Graphics* Instance();
 	static void Release();
 	static bool Initialized();
+
+	SDL_Texture* LoadTexture(std::string path);
+
+	void ClearBackBuffer();
+
+	void DrawTexture(SDL_Texture* text);
 
 	void Render();
 

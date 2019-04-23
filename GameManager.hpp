@@ -1,7 +1,7 @@
 #ifndef _GAMEMANAGER_H
 #define _GAMEMANAGER_H
 
-#include "Graphics.hpp"
+#include "Texture.hpp"
 
 class GameManager {
 
@@ -12,6 +12,8 @@ private:
 	Graphics* mGraphics;
 
 	SDL_Event mEvents;
+
+	Texture* mTex;
 
 public:
 	static GameManager* Instance();
