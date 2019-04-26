@@ -90,7 +90,7 @@ SDL_Texture* Graphics::LoadTexture(std::string path){
 
 	tex = SDL_CreateTextureFromSurface(mRenderer,surface);
 	if(tex == NULL){
-		printf("Create TEcture Error: %s\n", SDL_GetError());
+		printf("Create Texture Error: %s\n", SDL_GetError());
 		return tex;
 	}
 	SDL_FreeSurface(surface);
