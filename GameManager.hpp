@@ -1,6 +1,6 @@
 #ifndef _GAMEMANAGER_H
 #define _GAMEMANAGER_H
-
+#include "InputManager.h"
 #include "Texture.hpp"
 
 class GameManager {
@@ -15,6 +15,7 @@ private:
 
 	Texture* mTex;
 
+	InputManager* mInputMgr;
 public:
 	static GameManager* Instance();
 	static void Release();
