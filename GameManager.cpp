@@ -1,69 +1,128 @@
+//---------------------------------------------------------------------//
+// GameManager.cpp                                                     //
+// Used to intialize and release all other manager                     //
+// Contains the game loop as well as the Update and Render functions   //
+// Used to make sure all functions are called in the correct order     //
+//                                                                     //
+// By: Ather Omar                                                      //
+//---------------------------------------------------------------------//
 #include "GameManager.hpp"
+//-----------------------------------------------------------
+// QuickSDL
+//-----------------------------------------------------------
+namespace QuickSDL {
+	//Initializing to NULL
+	GameManager* GameManager::sInstance = NULL;
 
-GameManager* GameManager::sInstance = NULL;
+	GameManager* GameManager::Instance() {
 
-GameManager* GameManager::Instance() {
+		//Create a new instance if no instance was created before
+		if(sInstance == NULL)
+			sInstance = new GameManager();
 
-	if(sInstance == NULL) {
-		sInstance = new GameManager();
+		return sInstance;
 	}
 
-	return sInstance;
-}
+	void GameManager::Release() {
 
-void GameManager::Release() {
-
-	delete sInstance;
-	sInstance = NULL;
-}
-
-GameManager::GameManager() {
-
-	mQuit = false;
-	mGraphics = Graphics::Instance();
-
-	if(!Graphics::Initialized()) {
-		mQuit = true;
+		delete sInstance;
+		sInstance = NULL;
 	}
 
-	std::string path = SDL_GetBasePath();
-	path.append("Start_screen.png");
-	mTex = new Texture(path);
-}
+	GameManager::GameManager() {
 
-GameManager::~GameManager() {
+		mQuit = false;
 
-	Graphics::Release();
-	mGraphics = NULL;
+		//Initialize SDL
+		mGraphics = Graphics::Instance();
 
-	delete mTex;
-	mTex = NULL;
-}
+		// Quits the game if SDL fails to initialize
+		if(!Graphics::Initialized())
+			mQuit = true;
 
-void GameManager::Run() {
+		//Initialize AssetManager
+		mAssetMgr = AssetManager::Instance();
 
-	while(!mQuit) {
-		while(SDL_PollEvent(&mEvents) != 0) {
-			if(mEvents.type == SDL_QUIT) {
-				mQuit = true;
+		//Initialize InputManager
+		mInputMgr = InputManager::Instance();
+
+		//Initialize AudioManager
+		mAudioMgr = AudioManager::Instance();
+
+		//Initialize Timer
+		mTimer = Timer::Instance();
+	}
+
+	GameManager::~GameManager() {
+
+		AudioManager::Release();
+		mAudioMgr = NULL;
+
+		AssetManager::Release();
+		mAssetMgr = NULL;
+
+		Graphics::Release();
+		mGraphics = NULL;
+
+		InputManager::Release();
+		mInputMgr = NULL;
+
+		Timer::Release();
+		mTimer = NULL;
+	}
+
+	void GameManager::EarlyUpdate() {
+
+		//Updating the input state before any other updates are run to make sure the Input check is accurate
+		mInputMgr->Update();
+	}
+
+	void GameManager::Update() {
+
+		//GameEntity Updates should happen here
+	}
+
+	void GameManager::LateUpdate() {
+
+		//Any collision detection should happen here
+
+		mInputMgr->UpdatePrevInput();
+		mTimer->Reset();
+	}
+
+	void GameManager::Render() {
+
+		//Clears the last frame's render from the back buffer
+		mGraphics->ClearBackBuffer();
+
+		//All other rendering is to happen here
+
+		//Renders the current frame
+		mGraphics->Render();
+	}
+
+	void GameManager::Run() {
+
+		while(!mQuit) {
+
+			mTimer->Update();
+
+			while(SDL_PollEvent(&mEvents) != 0) {
+				//Checks if the user quit the game
+				if(mEvents.type == SDL_QUIT) {
+
+					mQuit = true;
+				}
 			}
-			mGraphics->ClearBackBuffer();
-			mTex->Render();
-			mGraphics->Render();
 
-			if(mEvents.type==SDL_KEYDOWN){
-					if(mEvents.key.keysym.sym == SDLK_0){
-						std::string path = SDL_GetBasePath();
-						path.append("Play_screen.png");
-						mTex = new Texture(path);
-					}
-					if(mEvents.key.keysym.sym == SDLK_1){
-						std::string path = SDL_GetBasePath();
-						path.append("End_screen.png");
-						mTex = new Texture(path);
-					}
+			//Limits the frame rate to FRAME_RATE
+			if(mTimer->DeltaTime() >= (1.0f / FRAME_RATE)) {
+
+				EarlyUpdate();
+				Update();
+				LateUpdate();
+				Render();
 			}
-
 		}
 	}
 }
