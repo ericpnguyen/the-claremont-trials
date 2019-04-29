@@ -10,10 +10,10 @@
 #ifndef _GAMEMANAGER_H
 #define _GAMEMANAGER_H
 //----------------------------------------------------------------
-#include "InputManager.hpp"
+
 #include "AudioManager.hpp"
 #include "Timer.hpp"
-#include "Texture.hpp"
+#include "StartScreen.hpp"
 //----------------------------------------------------------------
 // QuickSDL
 //----------------------------------------------------------------
@@ -44,6 +44,8 @@ namespace QuickSDL {
 
 		// Used to catch the event when the user exits the game
 		SDL_Event mEvents;
+
+		StartScreen* mStartScreen;
 
 	public:
 		//-----------------------------------------
