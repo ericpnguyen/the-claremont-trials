@@ -52,6 +52,7 @@ namespace QuickSDL {
 		//Initialize Timer
 		mTimer = Timer::Instance();
 
+		//Initialize Screen
 		mStartScreen = new StartScreen();
 	}
 
@@ -106,6 +107,8 @@ namespace QuickSDL {
 
 		//Renders the current frame
 		mGraphics->Render();
+
+		// mStartScreen->Render();
 	}
 
 	void GameManager::Run() {
