@@ -68,15 +68,9 @@ namespace QuickSDL {
 
 			return *this;
 		}
-<<<<<<< HEAD
 		
-		Vector2& operator -()const {
-			return (Vector2(-x, -y));
-=======
-
-		Vector2 operator -() const {
-			return Vector2(-x,-y);
->>>>>>> 6349aac12d48bd435d2a309cca797eef90d1da75
+		Vector2 operator -()const {
+			return Vector2(-x, -y);
 		}
 	};
 
