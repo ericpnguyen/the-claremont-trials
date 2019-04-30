@@ -39,8 +39,8 @@ namespace QuickSDL {
 
 		Vector2 parentScale = mParent->Scale(world);
 		//The object's local position is rotated by the parent's rotation
-		Vector2 testVector = Vector2(mPos.x * parentScale.x, mPos.y * parentScale.y);
-		Vector2 rotPos = RotateVector(testVector, mParent->Rotation(local));
+		//Vector2 testVector = Vector2(mPos.x * parentScale.x, mPos.y * parentScale.y);
+		Vector2 rotPos = RotateVector(Vector2(mPos.x * parentScale.x, mPos.y * parentScale.y), mParent->Rotation(local));
 
 		//The final position also depends on the parent's scale (if the parent is scaled up, the object should be further away from the parent)
 		return mParent->Pos(world) + rotPos;
@@ -117,8 +117,8 @@ namespace QuickSDL {
 			Vector2 parentScale = parent->Scale(world);
 
 			//Setting the local position to be relative to the new parent (while maintaining the same world position as before)
-			Vector2 secondTestVector = Vector2(Pos(world) - parent->Pos(world));
-			mPos = RotateVector(secondTestVector, -parent->Rotation(world));
+			//Vector2 secondTestVector = Vector2(Pos(world) - parent->Pos(world));
+			mPos = RotateVector(Vector2(Pos(world) - parent->Pos(world)), -parent->Rotation(world));
 			mPos.x /= parentScale.x;
 			mPos.y /= parentScale.y;
 

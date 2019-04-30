@@ -89,7 +89,7 @@ namespace QuickSDL {
 	//Rotates the given vector by the given angle around the origin   
 	//(Does not change the original vector)                             
 	//----------------------------------------------------------------
-	inline Vector2 RotateVector(Vector2& vec, float angle) {
+	inline Vector2 RotateVector(const Vector2& vec, float angle) {
 		//converting the angle to radians to be used in sin and cos functions
 		float radAngle = (float)(angle*DEG_TO_RAD);
 		
