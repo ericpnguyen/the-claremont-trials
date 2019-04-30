@@ -3,6 +3,10 @@
 namespace QuickSDL {
 
 	StartScreen::StartScreen() {
+
+		mTimer = Timer::Instance();
+		mInput = InputManager::Instance();
+
 		// Top Bar Entities
 		mTopBar = new GameEntity(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.5f, 80.0f));
 		mHiScore = new Texture("HIGH SCORE", "Lobster.otf", 32, {0, 0, 0});
@@ -16,16 +20,27 @@ namespace QuickSDL {
 
 		// Play Mode Entities
 		mPlayModes = new GameEntity(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.5f, Graphics::Instance()->SCREEN_HEIGHT*0.55f));
-		mOnePlayerMode = new Texture("1 Student", "Lobster.otf", 32, {0, 0, 0});
+		mOnePlayerMode = new Texture("Play Game", "Lobster.otf", 32, {0, 0, 0});
+		mLoadGame = new Texture("Load Game", "Lobster.otf", 32, {0, 0, 0});
+		mExitGame = new Texture("Exit Game", "Lobster.otf", 32, {0, 0, 0});
+
 		mCursor = new Texture("cursor.png");
 
 		mOnePlayerMode->Parent(mPlayModes);
+		mLoadGame->Parent(mPlayModes);
+		mExitGame->Parent(mPlayModes);
 		mCursor->Parent(mPlayModes);
 
-		mOnePlayerMode->Pos(Vector2(-18.0f, -35.0f));
-		mCursor->Pos(Vector2(-170.0f, -35.0f));
+		mOnePlayerMode->Pos(Vector2(0.0f, -125.0f));
+		mLoadGame->Pos(Vector2(0.0f,-80.0f));
+		mExitGame->Pos(Vector2(0.0f,-35.0f));
+		mCursor->Pos(Vector2(-180.0f, -125.0f));
 
 		mPlayModes->Parent(this);
+
+		mCursorStartPos = mCursor->Pos(local);
+		mCursorOffset = Vector2(0.0f, 45.0f);
+		mSelectedMode = 0;
 	}
 
 	StartScreen::~StartScreen() {
@@ -42,10 +57,30 @@ namespace QuickSDL {
 		mOnePlayerMode = NULL;
 		delete mCursor;
 		mCursor = NULL;
+		delete mLoadGame;
+		mLoadGame = NULL;
+		delete mExitGame;
+		mExitGame = NULL;
+	}
+
+	void StartScreen::ChangeSelectedMode(int change){
+		mSelectedMode += change;
+
+		if(mSelectedMode < 0){
+			mSelectedMode = 1;
+		}
+		else if(mSelectedMode >  1){
+			mSelectedMode = 0;
+		}
+
+		mCursor->Pos(mCursorStartPos + mCursorOffset * mSelectedMode);
 	}
 
 	void StartScreen::Update() {
-
+		if(mInput->KeyPressed(SDL_SCANCODE_DOWN))
+			ChangeSelectedMode(1);
+		else if(mInput->KeyPressed(SDL_SCANCODE_UP))
+			ChangeSelectedMode(-1);
 	}
 
 	void StartScreen::Render() {
@@ -53,5 +88,7 @@ namespace QuickSDL {
 
 		mOnePlayerMode->Render();
 		mCursor->Render();
+		mLoadGame->Render();
+		mExitGame->Render();
 	}
 }
