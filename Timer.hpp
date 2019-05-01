@@ -32,7 +32,7 @@ namespace QuickSDL {
 		//Stores the number of milliseconds since the last reset
 		unsigned int mElapsedTicks;
 		//Stores the time elapsed since the last reset in seconds
-		float mDelataTime;
+		float mDeltaTime;
 		//Can be used to speed up or slowdown all entities that transform using it
 		float mTimeScale;
 
