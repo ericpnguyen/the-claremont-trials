@@ -9,7 +9,7 @@ namespace QuickSDL {
 
 		// Top Bar Entities
 		mTopBar = new GameEntity(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.5f, 80.0f));
-		mHiScore = new Texture("HIGH SCORE", "Lobster.otf", 32, {0, 0, 0});
+		mHiScore = new Texture("HIGH SCORE - 4.00 GPA", "Lobster.otf", 32, {0, 0, 0});
 
 		mHiScore->Parent(mTopBar);
 
@@ -17,6 +17,11 @@ namespace QuickSDL {
 
 		mTopBar->Parent(this);
 		mTopBar->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.5f, 25.0f));
+
+		// Logo Entity
+		mLogo = new Texture("logo.png");
+		mLogo->Parent(this);
+		mLogo->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.5f, Graphics::Instance()->SCREEN_HEIGHT*0.25f));
 
 		// Play Mode Entities
 		mPlayModes = new GameEntity(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.5f, Graphics::Instance()->SCREEN_HEIGHT*0.55f));
@@ -34,20 +39,13 @@ namespace QuickSDL {
 		mOnePlayerMode->Pos(Vector2(0.0f, -125.0f));
 		mLoadGame->Pos(Vector2(0.0f,-80.0f));
 		mExitGame->Pos(Vector2(0.0f,-35.0f));
-		mCursor->Pos(Vector2(-180.0f, -125.0f));
+		mCursor->Pos(Vector2(-50.0f, -88.0f));
 
 		mPlayModes->Parent(this);
 
 		mCursorStartPos = mCursor->Pos(local);
 		mCursorOffset = Vector2(0.0f, 45.0f);
 		mSelectedMode = 0;
-
-		// Testing player
-        mPlayer = new Player();
-        mPlayer->Parent(this);
-        mPlayer->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.4f, Graphics::Instance()->SCREEN_HEIGHT*0.8f));
-        mPlayer->Active(true);
-        mPlayer->Visible(true);
 	}
 
 	StartScreen::~StartScreen() {
@@ -56,6 +54,10 @@ namespace QuickSDL {
 		mTopBar = NULL;
 		delete mHiScore;
 		mHiScore = NULL;
+
+		// Freeing Logo Entity
+		delete mLogo;
+		mLogo = NULL;
 
 		// Freeing Play Mode Entities
 		delete mPlayModes;
@@ -68,10 +70,6 @@ namespace QuickSDL {
 		mLoadGame = NULL;
 		delete mExitGame;
 		mExitGame = NULL;
-
-		// Testing player
-		delete mPlayer;
-		mPlayer = NULL;
 	}
 
 	int StartScreen::SelectedMode(){
@@ -83,10 +81,10 @@ namespace QuickSDL {
 		mSelectedMode += change;
 
 		if(mSelectedMode < 0){
-			mSelectedMode = 1;
+			mSelectedMode = 0;
 		}
 		else if(mSelectedMode >  1){
-			mSelectedMode = 0;
+			mSelectedMode = 2;
 		}
 
 		mCursor->Pos(mCursorStartPos + mCursorOffset * mSelectedMode);
@@ -98,20 +96,16 @@ namespace QuickSDL {
 			ChangeSelectedMode(1);
 		else if(mInput->KeyPressed(SDL_SCANCODE_UP))
 			ChangeSelectedMode(-1);
-
-		// Testing player
-		mPlayer->Update();
 	}
 
 	void StartScreen::Render() {
 		mHiScore->Render();
 
+		mLogo->Render();
+
 		mOnePlayerMode->Render();
 		mCursor->Render();
 		mLoadGame->Render();
 		mExitGame->Render();
-
-		// Testing player
-		mPlayer->Render();
 	}
 }

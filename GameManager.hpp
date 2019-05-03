@@ -46,6 +46,9 @@ namespace QuickSDL {
 
 		ScreenManager* mScreenMgr;
 
+		// mTex
+		Texture* mTex;
+
 	public:
 		//-----------------------------------------
 		//Returns a pointer to the class instance  

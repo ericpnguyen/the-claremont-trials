@@ -38,6 +38,7 @@ namespace QuickSDL {
 
 		//Is used to render the texture on the screen
 		SDL_Rect mRenderRect;
+		
 		//Is used to clip the texture from a spritesheet
 		SDL_Rect mClipRect;
 

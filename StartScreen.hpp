@@ -18,6 +18,9 @@ namespace QuickSDL {
 		GameEntity* mTopBar;
 		Texture* mHiScore;
 
+		// Logo Entity
+		Texture* mLogo;
+
 		// Play Mode Entities
 		GameEntity* mPlayModes;
 		Texture* mOnePlayerMode;
@@ -27,10 +30,6 @@ namespace QuickSDL {
 		Vector2 mCursorStartPos;
 		Vector2 mCursorOffset;
 		int mSelectedMode;
-
-		// Testing player
-		Player * mPlayer;
-
 
 	public:
 		StartScreen();

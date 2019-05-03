@@ -54,6 +54,9 @@ namespace QuickSDL {
 
 		//Initialize Screen
 		mScreenMgr= ScreenManager::Instance();
+
+		// mTex
+		mTex = new Texture("cursor.png");
 	}
 
 	GameManager::~GameManager() {
