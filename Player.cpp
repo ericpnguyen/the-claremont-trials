@@ -23,6 +23,7 @@ Player::Player(){
 }
 
 Player::~Player(){
+    
     mTimer = NULL;
     mInput = NULL;
 

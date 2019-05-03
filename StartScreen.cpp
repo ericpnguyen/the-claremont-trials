@@ -41,6 +41,13 @@ namespace QuickSDL {
 		mCursorStartPos = mCursor->Pos(local);
 		mCursorOffset = Vector2(0.0f, 45.0f);
 		mSelectedMode = 0;
+
+		// Testing player
+        mPlayer = new Player();
+        mPlayer->Parent(this);
+        mPlayer->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.4f, Graphics::Instance()->SCREEN_HEIGHT*0.8f));
+        mPlayer->Active(true);
+        mPlayer->Visible(true);
 	}
 
 	StartScreen::~StartScreen() {
@@ -61,6 +68,10 @@ namespace QuickSDL {
 		mLoadGame = NULL;
 		delete mExitGame;
 		mExitGame = NULL;
+
+		// Testing player
+		delete mPlayer;
+		mPlayer = NULL;
 	}
 
 	int StartScreen::SelectedMode(){
@@ -86,6 +97,9 @@ namespace QuickSDL {
 			ChangeSelectedMode(1);
 		else if(mInput->KeyPressed(SDL_SCANCODE_UP))
 			ChangeSelectedMode(-1);
+
+		// Testing player
+		mPlayer->Update();
 	}
 
 	void StartScreen::Render() {
@@ -95,5 +109,8 @@ namespace QuickSDL {
 		mCursor->Render();
 		mLoadGame->Render();
 		mExitGame->Render();
+
+		// Testing player
+		mPlayer->Render();
 	}
 }

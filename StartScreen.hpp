@@ -3,6 +3,7 @@
 
 #include "AnimatedTexture.hpp"
 #include "InputManager.hpp"
+#include "Player.hpp"
 
 namespace QuickSDL {
 
@@ -26,6 +27,9 @@ namespace QuickSDL {
 		Vector2 mCursorStartPos;
 		Vector2 mCursorOffset;
 		int mSelectedMode;
+
+		// Testing player
+		Player * mPlayer;
 
 
 	public:
