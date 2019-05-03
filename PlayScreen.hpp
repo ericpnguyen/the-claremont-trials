@@ -1,8 +1,6 @@
-#ifndef PlayScreen_h
-#define PlayScreen_h
-#include "InputManager.hpp"
-#include "Player.hpp"
-
+#ifndef PlayScreen_hpp
+#define PlayScreen_hpp
+#include "Level.hpp"
 
 class PlayScreen : public GameEntity {
 	
@@ -19,6 +17,7 @@ private:
 	
 	bool mGameStarted;
 	
+	Level* mLevel;	
 	bool mLevelStarted;
 	int mCurrentStage;
 	
@@ -36,6 +35,7 @@ public:
 	
 	void StartNewGame();
 	
+	bool GameOver();
 	
 	void Update();
 	

@@ -92,6 +92,7 @@ namespace QuickSDL {
 		mCursor->Pos(mCursorStartPos + mCursorOffset * mSelectedMode);
 	}
 
+
 	void StartScreen::Update() {
 		if(mInput->KeyPressed(SDL_SCANCODE_DOWN))
 			ChangeSelectedMode(1);
