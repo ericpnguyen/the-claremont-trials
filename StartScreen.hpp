@@ -32,6 +32,9 @@ namespace QuickSDL {
 		StartScreen();
 		~StartScreen();
 
+
+		int SelectedMode();
+
 		void ChangeSelectedMode(int change);
 
 		void Update();

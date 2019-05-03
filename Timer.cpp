@@ -44,12 +44,12 @@ namespace QuickSDL {
 
 		mStartTicks = SDL_GetTicks();
 		mElapsedTicks = 0;
-		mDelataTime = 0.0f;
+		mDeltaTime = 0.0f;
 	}
 
 	float Timer::DeltaTime() {
 
-		return mDelataTime;
+		return mDeltaTime;
 	}
 
 	void Timer::TimeScale(float t) {
@@ -66,6 +66,6 @@ namespace QuickSDL {
 
 		mElapsedTicks = SDL_GetTicks() - mStartTicks;
 		//Converting milliseconds to seconds
-		mDelataTime = mElapsedTicks * 0.001f;
+		mDeltaTime = mElapsedTicks * 0.001f;
 	}
 }

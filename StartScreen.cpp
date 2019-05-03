@@ -63,6 +63,11 @@ namespace QuickSDL {
 		mExitGame = NULL;
 	}
 
+	int StartScreen::SelectedMode(){
+		
+		return mSelectedMode;
+	}
+
 	void StartScreen::ChangeSelectedMode(int change){
 		mSelectedMode += change;
 
