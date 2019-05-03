@@ -113,8 +113,6 @@ namespace QuickSDL {
 
 		//Renders the current frame
 		mGraphics->Render();
-
-		// mStartScreen->Render();
 	}
 
 	void GameManager::Run() {

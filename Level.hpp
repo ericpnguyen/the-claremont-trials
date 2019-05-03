@@ -20,7 +20,7 @@ private:
 	
 	float mLabelTimer;
 	
-	Texture* mStageLabel;
+	// Texture* mStageLabel;
 	float mStageLabelOnScreen;
 	float mStageLabelOffScreen;
 	

@@ -14,6 +14,11 @@ PlayScreen::PlayScreen() {
 	mLevel = NULL;
 	mLevelStartDelay = 1.0f;
 	mLevelStarted = false;
+
+	// Ground strip
+	mGroundStrip = new Texture("groundstrip.png");
+	mGroundStrip->Parent(this);
+	mGroundStrip->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.83f));
 	
 	mPlayer = NULL;
 	
@@ -32,6 +37,10 @@ PlayScreen::~PlayScreen() {
 	
 	delete mLevel;
 	mLevel = NULL;
+
+	// Ground strip
+	delete mGroundStrip;
+	mGroundStrip = NULL;
 	
 	delete mPlayer;
 	mPlayer = NULL;
@@ -52,13 +61,13 @@ void PlayScreen::StartNewGame() {
 	delete mPlayer;
 	mPlayer = new Player();
 	mPlayer->Parent(this);
-	mPlayer->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH * 0.4f, Graphics::Instance()->SCREEN_HEIGHT * 0.9f));
+	mPlayer->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH * 0.1f, Graphics::Instance()->SCREEN_HEIGHT * 0.68f));
 	mPlayer->Active(false);
 
 	
 	
 	
-	mGameStarted = false;
+	mGameStarted = true;
 	mLevelStarted = false;
 	mLevelStartTimer = 0.0f;
 	mCurrentStage = 0;
@@ -112,14 +121,12 @@ void PlayScreen::Update() {
 
 void PlayScreen::Render() {
 		
-	if(!mGameStarted)
-		mStartLabel->Render();
-	
 	if(mGameStarted) {
 		
 		if(mLevelStarted)
 			mLevel->Render();
-		
-		mPlayer->Render();
+			
+			mGroundStrip->Render();
+			mPlayer->Render();
 	}
 }

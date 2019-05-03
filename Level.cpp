@@ -11,20 +11,19 @@ Level::Level(int stage, Player* player) {
 	
 	mLabelTimer = 0.0f;
 	
-	mStageLabel = new Texture("STAGE", "emulogic.ttf", 32, { 75, 75, 200 });
-	mStageLabel->Parent(this);
-	mStageLabel->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH * 0.35f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
-	
+	// mStageLabel = new Texture("STAGE", "emulogic.ttf", 32, { 75, 75, 200 });
+	// mStageLabel->Parent(this);
+	// mStageLabel->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH * 0.35f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 	
 	mStageLabelOnScreen = 0.0f;
 	mStageLabelOffScreen = 1.5f;
 	
-	mReadyLabel = new Texture("READY", "emulogic.ttf", 32, { 150, 0, 0 });
+	mReadyLabel = new Texture("READY?", "emulogic.ttf", 32, { 150, 0, 0 });
 	mReadyLabel->Parent(this);
-	mReadyLabel->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH * 0.4f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
+	mReadyLabel->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 	
 	mReadyLabelOnScreen = mStageLabelOffScreen;
-	mReadyLabelOffScreen = mReadyLabelOnScreen + 3.0f;
+	mReadyLabelOffScreen = mReadyLabelOnScreen + 1.0f;
 	
 	mPlayer = player;
 	mPlayerHit = false;
@@ -50,8 +49,8 @@ Level::~Level(){
 	
 	mTimer = NULL;
 	
-	delete mStageLabel;
-	mStageLabel = NULL;
+	// delete mStageLabel;
+	// mStageLabel = NULL;
 	
 	delete mReadyLabel;
 	mReadyLabel = NULL;
@@ -255,11 +254,12 @@ void Level::Render() {
 		
 		if(mLabelTimer > mStageLabelOnScreen && mLabelTimer < mStageLabelOffScreen) {
 			
-			mStageLabel->Render();
+			// mStageLabel->Render();
+			mReadyLabel->Render();
 			
 		} else if(mLabelTimer > mReadyLabelOnScreen && mLabelTimer < mReadyLabelOffScreen) {
 			
-			mReadyLabel->Render();
+			// mReadyLabel->Render();
 			
 		}
 	} else {

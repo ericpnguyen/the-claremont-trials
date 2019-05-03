@@ -10,7 +10,7 @@ private:
 	Timer* mTimer;
 	InputManager* mInput;
 	
-	Texture* mStartLabel;
+    Texture* mStartLabel;
 	
 	float mLevelStartTimer;
 	float mLevelStartDelay;
@@ -20,7 +20,9 @@ private:
 	Level* mLevel;	
 	bool mLevelStarted;
 	int mCurrentStage;
-	
+
+	// Ground strip
+	Texture* mGroundStrip;
 	
 	Player* mPlayer;
 	
