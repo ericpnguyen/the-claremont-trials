@@ -1,4 +1,4 @@
-#include "Enemy.hpp"
+/*#include "Enemy.hpp"
 
 namespace QuickSDL {
 Enemy::Enemy(float x)
@@ -77,4 +77,4 @@ void Enemy::Update()
 //         break;
 
 //     }
-// }
+// }*/
