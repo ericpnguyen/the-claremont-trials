@@ -20,6 +20,16 @@ PlayScreen::PlayScreen() {
 	mGroundStrip->Parent(this);
 	mGroundStrip->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.83f));
 	
+	// Cloud background
+	mBackground = new Texture("background.png");
+	mBackground->Parent(this);
+	mBackground->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
+
+	// Ready label
+	mReadyLabel = new Texture("READY?", "emulogic.ttf", 32, { 150, 0, 0 });
+	mReadyLabel->Parent(this);
+	mReadyLabel->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
+	
 	mPlayer = NULL;
 	
 	// Enemy::CreatePaths();
@@ -41,7 +51,16 @@ PlayScreen::~PlayScreen() {
 	// Ground strip
 	delete mGroundStrip;
 	mGroundStrip = NULL;
+
+	// Background
+	delete mBackground;
+	mBackground = NULL;
+
+	// Ready Label
+	delete mReadyLabel;
+	mReadyLabel = NULL;
 	
+	// Player
 	delete mPlayer;
 	mPlayer = NULL;
 }
@@ -125,8 +144,12 @@ void PlayScreen::Render() {
 		
 		if(mLevelStarted)
 			mLevel->Render();
-			
+
+			mBackground->Render();
 			mGroundStrip->Render();
+			if(mLevelStartTimer > 0.0f && mLevelStartTimer < 1.5f) {
+				mReadyLabel->Render();
+			}
 			mPlayer->Render();
 	}
 }
