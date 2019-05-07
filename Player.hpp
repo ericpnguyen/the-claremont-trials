@@ -7,7 +7,7 @@
 
 using namespace QuickSDL;
 
-class Player : public GameEntity {
+class Player : public PhysEntity {
 
 private:
 
@@ -17,6 +17,7 @@ private:
 
     bool mVisible;
     bool mAnimating;
+    bool mWasHit;
 
     int mGPA;
     int mLives;
@@ -41,6 +42,10 @@ public:
     ~Player();
 
     void Visible(bool visitive);
+
+    void Hit(PhysEntity* other) override;
+    bool WasHit();
+
     bool IsAnimating();
 
     int GPA();
@@ -48,9 +53,9 @@ public:
 
     void AddGPA(int change);
 
-    void Update();
+    void Update() override;
 
-    void Render();
+    void Render() override;
 };
 
 

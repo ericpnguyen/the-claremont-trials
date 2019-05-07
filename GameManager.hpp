@@ -13,6 +13,7 @@
 #include "AudioManager.hpp"
 #include "Timer.hpp"
 #include "ScreenManager.hpp"
+#include "PhysicsManager.hpp"
 //----------------------------------------------------------------
 // QuickSDL
 //----------------------------------------------------------------
@@ -37,6 +38,7 @@ namespace QuickSDL {
 		AssetManager* mAssetMgr;
 		InputManager* mInputMgr;
 		AudioManager* mAudioMgr;
+		PhysicsManager* mPhysMgr;
 
 		// Used to limit the frame rate
 		Timer* mTimer;

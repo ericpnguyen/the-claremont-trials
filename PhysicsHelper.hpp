@@ -10,8 +10,10 @@ inline bool CircleCircleCollision(CircleCollider* c1, CircleCollider* c2) {
 }
 
 inline bool ColliderColliderCheck(Collider* c1, Collider* c2) {
-	if(c1->GetType() == Collider::ColliderType::Circle && c2->GetType() == Collider::ColliderType::Circle)
+	if(c1->GetType() == Collider::ColliderType::Circle && c2->GetType() == Collider::ColliderType::Circle) {
 		return CircleCircleCollision(static_cast<CircleCollider*>(c1), static_cast<CircleCollider*>(c2));
+	}
+	return false;
 }
 
 #endif // _PHYSICSHELPER_H

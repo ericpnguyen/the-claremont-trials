@@ -1,4 +1,6 @@
 #include "Player.hpp"
+#include "BoxCollider.hpp"
+#include "PhysicsManager.hpp"
 
 Player::Player(){
 
@@ -11,6 +13,8 @@ Player::Player(){
     mVisible = false;
 
     mAnimating = false;
+
+    mWasHit = false;
 
     mGPA = 0;
     mLives = 3;
@@ -25,6 +29,12 @@ Player::Player(){
     for(int i = 0; i < MAX_BULLETS; i++) {
         mBullets[i] = new Bullet();
     }
+
+    AddCollider(new BoxCollider(Vector2(15.0f, 67.0f)));
+    AddCollider(new BoxCollider(Vector2(15.0f, 40.0f)), Vector2(15.0f, 10.0f));
+    AddCollider(new BoxCollider(Vector2(15.0f, 40.0f)), Vector2(-15.0f, 10.0f));
+
+    mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::Friendly);
 }
 
 Player::~Player(){
@@ -78,6 +88,16 @@ void Player::Visible(bool visible){
     mVisible = visible;
 }
 
+void Player::Hit(PhysEntity* other) {
+    mLives--;
+    mAnimating = true;
+    mWasHit = true;
+}
+
+bool Player::WasHit() {
+    return mWasHit;
+}
+
 bool Player::IsAnimating(){
     return mAnimating;
 }
@@ -96,6 +116,10 @@ void Player::AddGPA(int change){
 
 void Player::Update(){
     if (mAnimating){
+
+        if(mWasHit) {
+            mWasHit = false;
+        }
 
     }
     else{

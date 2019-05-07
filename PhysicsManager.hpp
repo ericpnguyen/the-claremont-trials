@@ -7,7 +7,7 @@
 class PhysicsManager {
 public:
 	enum class CollisionLayers {
-		Frinedly = 0,
+		Friendly = 0,
 		FriendlyProjectiles ,
 		Hostile,
 		HostileProjectiles,

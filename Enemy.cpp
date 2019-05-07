@@ -1,5 +1,6 @@
 #include "Enemy.hpp"
 #include "BoxCollider.hpp"
+#include "PhysicsManager.hpp"
 
 using namespace QuickSDL;
 
@@ -44,7 +45,6 @@ Enemy::Enemy(int path)
 
     mCurrentWaypoint = 0;
     Pos(sPaths[mCurrentPath][mCurrentWaypoint]);
-    //mCurrentState = incoming;
 
     mTexture = new Texture("A.png");
     mTexture->Parent(this);
@@ -52,6 +52,7 @@ Enemy::Enemy(int path)
     mAlive = true; 
 
     AddCollider(new BoxCollider(mTexture->ScaledDimensions()));
+    mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::Hostile);
 }
 
 //deconstructor

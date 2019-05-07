@@ -125,10 +125,8 @@ void Level::HandleCollisions() {
 	
 	if(!mPlayerHit) {
 		
-		if(InputManager::Instance()->KeyPressed(SDL_SCANCODE_X)) {
-			
-			// mPlayer->WasHit();
-			
+		if(mPlayer->WasHit()) {
+						
 			mPlayerHit = true;
 			mPlayerRespawnTimer = 0.0f;
 			mPlayer->Active(false);

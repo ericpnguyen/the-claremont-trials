@@ -19,6 +19,8 @@ public:
 
 	bool CheckCollision(PhysEntity* other);
 
+	virtual void Hit(PhysEntity* other);
+
 	virtual void Render();
 
 protected:
