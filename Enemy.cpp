@@ -268,6 +268,7 @@ void Enemy::changeSpeed(float x)
 void Enemy::Hit(PhysEntity* other) {
     sPlayer->AddGPA(4);
     mAlive = false;
+    this->Active(false);
 }
 
 bool Enemy::WasHit() {
