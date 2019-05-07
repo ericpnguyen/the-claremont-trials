@@ -8,10 +8,10 @@ BoxCollider::BoxCollider(Vector2 size)
 	AddVert(2, Vector2(-0.5f*size.x,  0.5f*size.y));
 	AddVert(3, Vector2( 0.5f*size.x,  0.5f*size.y));
 
-	if(DEBUG_COLLIDERS) {
+	/*if(DEBUG_COLLIDERS) {
 		SetDebugTexture(new Texture("box.png"));
 		mDebugTexture->Scale(size / 100.0f);
-	}
+	}*/
 }
 
 BoxCollider::~BoxCollider() {

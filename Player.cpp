@@ -16,25 +16,25 @@ Player::Player(){
 
     mWasHit = false;
 
-    mGPA = 0;
+    mGPA = 200;
     mLives = 3;
 
     mPlayer = new Texture("player.png");
     mPlayer->Parent(this);
     mPlayer->Pos(VEC2_ZERO);
 
-    mMoveSpeed = 400.0f;
+    mMoveSpeed = 1500.0f;
     mMoveBounds = Vector2(20.0f, 1000.0f);
 
     for(int i = 0; i < MAX_BULLETS; i++) {
-        mBullets[i] = new Bullet();
+        mBullets[i] = new Bullet(true);
     }
 
     AddCollider(new BoxCollider(Vector2(15.0f, 67.0f)));
     AddCollider(new BoxCollider(Vector2(15.0f, 40.0f)), Vector2(15.0f, 10.0f));
     AddCollider(new BoxCollider(Vector2(15.0f, 40.0f)), Vector2(-15.0f, 10.0f));
 
-    mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::Friendly);
+    //mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::Friendly);
 }
 
 Player::~Player(){
@@ -50,6 +50,10 @@ Player::~Player(){
         delete mBullets[i];
         mBullets[i] = NULL;
     }
+}
+
+bool Player::IgnoreCollisions() {
+    return !mVisible || mAnimating;
 }
 
 void Player::HandleMovement(){
@@ -89,9 +93,9 @@ void Player::Visible(bool visible){
 }
 
 void Player::Hit(PhysEntity* other) {
-    mLives--;
-    mAnimating = true;
-    mWasHit = true;
+    //mLives--;
+    //mAnimating = true;
+    //mWasHit = true;
 }
 
 bool Player::WasHit() {

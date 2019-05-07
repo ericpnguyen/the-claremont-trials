@@ -16,7 +16,6 @@ namespace QuickSDL {
 
 		// Top Bar Entities
 		GameEntity* mTopBar;
-		Texture* mHiScore;
 
 		// Logo Entity
 		Texture* mLogo;
@@ -33,7 +32,6 @@ namespace QuickSDL {
 	public:
 		StartScreen();
 		~StartScreen();
-
 
 		int SelectedMode();
 

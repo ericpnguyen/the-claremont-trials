@@ -30,11 +30,18 @@ unsigned long PhysEntity::GetId() {
 }
 
 bool PhysEntity::CheckCollision(PhysEntity* other) {
+	if(IgnoreCollisions() || other->IgnoreCollisions())
+		return false;
+	
 	return ColliderColliderCheck(mBroadPhaseCollider, other->mBroadPhaseCollider);
 }
 
 void PhysEntity::Hit(PhysEntity* other) {
 
+}
+
+bool PhysEntity::IgnoreCollisions() {
+	return false;
 }
 
 void PhysEntity::AddCollider(Collider* collider, Vector2 localPos /* = VEC2_ZERO */) {

@@ -14,8 +14,8 @@ public:
 
 protected:
 	ColliderType mType;
-	static const bool DEBUG_COLLIDERS = true;
-	Texture* mDebugTexture;
+	//static const bool DEBUG_COLLIDERS = true;
+	//Texture* mDebugTexture;
 
 public:
 	Collider(ColliderType type);
@@ -28,7 +28,7 @@ public:
 	virtual void Render();
 
 protected:
-	void SetDebugTexture(Texture* texture);
+	//void SetDebugTexture(Texture* texture);
 };
 
 #endif // _COLLIDER_H

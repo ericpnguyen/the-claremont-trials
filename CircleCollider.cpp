@@ -5,14 +5,14 @@ CircleCollider::CircleCollider(float radius, bool broadPhase /* = false */)
 {
 	mRadius = radius;
 
-	if(DEBUG_COLLIDERS) {
+	/*if(DEBUG_COLLIDERS) {
 		if(broadPhase)
 			SetDebugTexture(new Texture("player.png"));
 		else
 			SetDebugTexture(new Texture("player.png"));
 
 		mDebugTexture->Scale(VEC2_ONE * (radius * 2 / 100.0f));
-	}
+	}*/
 }
 
 CircleCollider::~CircleCollider() {

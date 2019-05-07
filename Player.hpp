@@ -19,7 +19,7 @@ private:
     bool mAnimating;
     bool mWasHit;
 
-    int mGPA;
+    float mGPA;
     int mLives;
 
     Texture* mPlayer;
@@ -28,10 +28,12 @@ private:
     Vector2 mMoveBounds;
 
     // Bullet array
-    static const int MAX_BULLETS = 5;
+    static const int MAX_BULLETS = 2;
     Bullet* mBullets[MAX_BULLETS];
 
 private:
+
+    bool IgnoreCollisions() override;
 
     void HandleMovement();
     void HandleFiring();
@@ -41,7 +43,7 @@ public:
     Player();
     ~Player();
 
-    void Visible(bool visitive);
+    void Visible(bool visible);
 
     void Hit(PhysEntity* other) override;
     bool WasHit();
@@ -57,10 +59,4 @@ public:
 
     void Render() override;
 };
-
-
-
-
-
-
 #endif

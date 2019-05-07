@@ -57,8 +57,10 @@ Level::Level(int stage, Player* player) {
 	mCurrentPriority = 0;
 	mCurrentIndex = 0;
 	mSpawningFinished = false;
-	mSpawnDelay = 2.0f;
+	mSpawnDelay = 0.3f;
 	mSpawnTimer = 0.0f;
+
+	Enemy::CurrentPlayer(mPlayer);
 }
 
 Level::~Level(){
@@ -127,9 +129,9 @@ void Level::HandleCollisions() {
 		
 		if(mPlayer->WasHit()) {
 						
-			mPlayerHit = true;
-			mPlayerRespawnTimer = 0.0f;
-			mPlayer->Active(false);
+			//mPlayerHit = true;
+			//mPlayerRespawnTimer = 0.0f;
+			//mPlayer->Active(false);
 		}
 	}
 }
@@ -274,16 +276,10 @@ void Level::Render() {
 		for (int i = 0; i < mEnemies.size(); i++)
 			mEnemies[i]->Render();
 		
-		// for (int i = 0; i < mEnemies.size(); i++ )
-		// 	mEnemies[i]->Render();
-		
-		if(mPlayerHit) {
-			
-			if(mPlayerRespawnTimer >= mPlayerRespawnLabelOnScreen)
-				mReadyLabel->Render();
-			
-			if(mGameOverTimer >= mGameOverLabelOnScreen)
-				mGameOverLabel->Render();
+		if(mEnemies.size() == 50) {
+			mTimer->DeltaTime();
+			mTimer->DeltaTime();			
+			mGameOverLabel->Render();
 		}
 		
 	}

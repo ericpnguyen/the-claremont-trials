@@ -4,6 +4,7 @@
 #include "BezierPath.hpp"
 #include "Graphics.hpp"
 #include "PhysEntity.hpp"
+#include "Player.hpp"
 
 
 class Enemy: public PhysEntity {
@@ -11,6 +12,7 @@ class Enemy: public PhysEntity {
 private:
 	static std::vector<std::vector<Vector2>> sPaths;
 
+private:
 	enum STATES {flyIn};
 
 
@@ -35,7 +37,17 @@ private:
 	Vector2 mMoveBounds; 
 	bool mAlive;
 
+	bool mWasHit;
+
+	Texture* mDeathAnimation; 
+
+protected:
+	bool IgnoreCollisions() override;
+	void HandleDeadState();
+
 public:
+	static Player* sPlayer;
+	static void CurrentPlayer(Player* player);
 
 	static void CreatePaths();
 
@@ -47,12 +59,13 @@ public:
 
 	void HandleStates();
 
+	// Hit functions
 
-	// void Visible(bool visible);
+	void Hit(PhysEntity* other) override;
+	bool WasHit();
 
+	void Update() override;
 
-	void Update();
-
-	void Render();
+	void Render() override;
 }; 
 #endif

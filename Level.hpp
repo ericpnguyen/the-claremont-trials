@@ -54,6 +54,7 @@ private:
 	std::vector<Enemy*> mEnemies;
 	
 	XMLDocument mSpawningPatterns;
+	
 	int mCurrentPriority;
 	int mCurrentIndex;	
 

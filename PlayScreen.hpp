@@ -1,6 +1,10 @@
 #ifndef PlayScreen_hpp
 #define PlayScreen_hpp
 #include "Level.hpp"
+#include "Scoreboard.hpp"
+#include "tinyxml2.h"
+
+using namespace tinyxml2;
 
 class PlayScreen : public GameEntity {
 	
@@ -21,6 +25,12 @@ private:
 	bool mLevelStarted;
 	int mCurrentStage;
 
+	// mTopScoreLabel
+	Texture* mTopScoreLabel;
+
+	// mTopBar
+	GameEntity* mTopBar;
+
 	// Ground strip
 	Texture* mGroundStrip;
 
@@ -28,6 +38,11 @@ private:
 	Texture* mReadyLabel;
 	
 	Player* mPlayer;
+
+	Scoreboard* mPlayerOneScore;
+	Scoreboard* mTopScore;
+
+	XMLDocument mHighScore;
 	
 private:
 	
@@ -41,6 +56,10 @@ public:
 	void StartNewGame();
 	
 	bool GameOver();
+
+	void SaveScore();
+
+	void LoadScore();
 	
 	void Update();
 	

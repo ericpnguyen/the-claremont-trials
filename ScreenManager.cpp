@@ -1,5 +1,6 @@
 #include "ScreenManager.hpp"
 #include "StartScreen.hpp"
+#include <iostream>
 
 ScreenManager* ScreenManager::sInstance = NULL;
 
@@ -54,10 +55,9 @@ void ScreenManager::Update() {
 			mStartScreen->Update();
 
 			if(mInput->KeyPressed(SDL_SCANCODE_RETURN) && mStartScreen->SelectedMode() == 0) {
-				mAudio->PauseMusic();
+				//mAudio->PauseMusic();
 				mCurrentScreen = play;
 				mPlayScreen->StartNewGame();
-				
 			}
 
 			if(mInput->KeyPressed(SDL_SCANCODE_RETURN) && mStartScreen->SelectedMode() == 1) {
@@ -68,9 +68,9 @@ void ScreenManager::Update() {
 			
 		case play:
 			mPlayScreen->Update();
+
 			if(mPlayScreen->GameOver()) {
-				
-				mCurrentScreen = start;
+				exit(1);
 			}
 			break;
 	}
