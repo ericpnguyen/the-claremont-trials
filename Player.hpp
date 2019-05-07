@@ -2,6 +2,8 @@
 #define _Player_HPP
 #include "AnimatedTexture.hpp"
 #include "InputManager.hpp"
+#include "Bullet.hpp"
+#include "AudioManager.hpp"
 
 using namespace QuickSDL;
 
@@ -11,6 +13,7 @@ private:
 
     Timer* mTimer;
     InputManager* mInput;
+    AudioManager* mAudio;
 
     bool mVisible;
     bool mAnimating;
@@ -23,9 +26,14 @@ private:
     float mMoveSpeed;
     Vector2 mMoveBounds;
 
+    // Bullet array
+    static const int MAX_BULLETS = 5;
+    Bullet* mBullets[MAX_BULLETS];
+
 private:
 
     void HandleMovement();
+    void HandleFiring();
 
 public:
 

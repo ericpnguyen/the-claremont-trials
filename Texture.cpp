@@ -76,6 +76,14 @@ namespace QuickSDL {
 		mGraphics = NULL;
 	}
 
+	Vector2 Texture::ScaledDimensions() {
+		Vector2 scaledDimensions = Scale();
+		scaledDimensions.x *= mWidth;
+		scaledDimensions.y *= mHeight;
+
+		return scaledDimensions;
+	}
+
 	void Texture::Render() {
 
 		Vector2 pos = Pos(world);

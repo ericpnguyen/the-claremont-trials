@@ -2,6 +2,7 @@
 #define ScreenManager_h
 #include "StartScreen.hpp"
 #include "PlayScreen.hpp"
+#include "AudioManager.hpp"
 
 class ScreenManager {
 	
@@ -13,6 +14,7 @@ private:
 	static ScreenManager* sInstance;
 	
 	InputManager* mInput;
+	AudioManager* mAudio;
 	
 	StartScreen* mStartScreen;
 	PlayScreen* mPlayScreen;

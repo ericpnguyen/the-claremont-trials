@@ -6,6 +6,8 @@ Player::Player(){
 
     mInput = InputManager::Instance();
 
+    mAudio = AudioManager::Instance();
+
     mVisible = false;
 
     mAnimating = false;
@@ -17,26 +19,35 @@ Player::Player(){
     mPlayer->Parent(this);
     mPlayer->Pos(VEC2_ZERO);
 
-    mMoveSpeed = 100.0f;
-    mMoveBounds = Vector2(0.0f, 800.0f);
+    mMoveSpeed = 400.0f;
+    mMoveBounds = Vector2(20.0f, 1000.0f);
 
+    for(int i = 0; i < MAX_BULLETS; i++) {
+        mBullets[i] = new Bullet();
+    }
 }
 
 Player::~Player(){
     
     mTimer = NULL;
     mInput = NULL;
+    mAudio = NULL;
 
     delete mPlayer;
     mPlayer = NULL;
+
+    for (int i = 0; i < MAX_BULLETS; i++) {
+        delete mBullets[i];
+        mBullets[i] = NULL;
+    }
 }
 
 void Player::HandleMovement(){
     if(mInput->KeyDown(SDL_SCANCODE_RIGHT)){
-        Translate(VEC2_RIGHT*mMoveSpeed*mTimer->DeltaTime());
+        Translate(VEC2_RIGHT*mMoveSpeed*mTimer->DeltaTime(), world);
     }
     else if(mInput->KeyDown(SDL_SCANCODE_LEFT)){
-        Translate(-VEC2_RIGHT*mMoveSpeed*mTimer->DeltaTime());
+        Translate(-VEC2_RIGHT*mMoveSpeed*mTimer->DeltaTime(), world);
     }
 
     Vector2 pos = Pos(local);
@@ -49,6 +60,18 @@ void Player::HandleMovement(){
     }
 
     Pos(pos);
+}
+
+void Player::HandleFiring() {
+    if(mInput->KeyPressed(SDL_SCANCODE_SPACE)) {
+        for(int i = 0; i < MAX_BULLETS; i++) {
+            if(!mBullets[i]->Active()) {
+                mBullets[i]->Fire(Pos());
+                mAudio->PlaySFX("shotgun.wav");
+                break;
+            }
+        }
+    }
 }
 
 void Player::Visible(bool visible){
@@ -78,7 +101,12 @@ void Player::Update(){
     else{
         if(Active()){
             HandleMovement();
+            HandleFiring();
         }
+    }
+
+    for (int i = 0; i < MAX_BULLETS; i++) {
+        mBullets[i]->Update();
     }
 }
 
@@ -90,5 +118,9 @@ void Player::Render(){
         else{
             mPlayer->Render();
         }
+    }
+
+    for (int i = 0; i < MAX_BULLETS; i++) {
+        mBullets[i]->Render();
     }
 }

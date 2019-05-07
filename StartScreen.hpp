@@ -25,7 +25,6 @@ namespace QuickSDL {
 		GameEntity* mPlayModes;
 		Texture* mOnePlayerMode;
 		Texture* mCursor;
-		Texture* mLoadGame;
 		Texture* mExitGame;
 		Vector2 mCursorStartPos;
 		Vector2 mCursorOffset;

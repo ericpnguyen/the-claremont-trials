@@ -2,12 +2,15 @@
 #define Level_h
 #include "InputManager.hpp"
 #include "Player.hpp"
+#include "Enemy.hpp"
+#include "tinyxml2.h"
+
+using namespace tinyxml2;
 
 
 class Level : public GameEntity {
 	
 public:
-	
 	
 	
 	enum LEVEL_STATES { running, finished, gameover };
@@ -42,11 +45,22 @@ private:
 	float mGameOverLabelOnScreen;
 	
 	LEVEL_STATES mCurrentState;
+
+	// Background
+	Texture* mBackground;
+
+	// Enemies
+	int mEnemyCount;
+	std::vector<Enemy*> mEnemies;
 	
-	
-	
-	// std::vector<Enemy*> mEnemies;
-	
+	XMLDocument mSpawningPatterns;
+	int mCurrentPriority;
+	int mCurrentIndex;	
+
+	bool mSpawningFinished;
+	float mSpawnDelay;
+	float mSpawnTimer;
+
 private:
 	
 	void StartStage();

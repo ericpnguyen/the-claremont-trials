@@ -23,11 +23,13 @@ void ScreenManager::Release() {
 ScreenManager::ScreenManager() {
 	
 	mInput = InputManager::Instance();
+	mAudio = AudioManager::Instance();
 	
 	mStartScreen = new StartScreen();
 	mPlayScreen = new PlayScreen();
 	
 	mCurrentScreen = start;
+	mAudio->PlayMusic("menu.mp3");
 }
 
 ScreenManager::~ScreenManager() {
@@ -49,17 +51,16 @@ void ScreenManager::Update() {
 	switch(mCurrentScreen) {
 			
 		case start:
-			
 			mStartScreen->Update();
 
 			if(mInput->KeyPressed(SDL_SCANCODE_RETURN) && mStartScreen->SelectedMode() == 0) {
-				
+				mAudio->PauseMusic();
 				mCurrentScreen = play;
 				mPlayScreen->StartNewGame();
 				
 			}
 
-			if(mInput->KeyPressed(SDL_SCANCODE_RETURN) && mStartScreen->SelectedMode() == 2) {
+			if(mInput->KeyPressed(SDL_SCANCODE_RETURN) && mStartScreen->SelectedMode() == 1) {
 				exit(1);
 			}
 

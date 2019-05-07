@@ -9,7 +9,7 @@ namespace QuickSDL {
 
 		// Top Bar Entities
 		mTopBar = new GameEntity(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.5f, 80.0f));
-		mHiScore = new Texture("HIGH SCORE - 4.00 GPA", "emulogic.ttf", 16, {0, 0, 0});
+		mHiScore = new Texture("HIGH SCORE - 2.00 GPA", "emulogic.ttf", 16, {0, 0, 0});
 
 		mHiScore->Parent(mTopBar);
 
@@ -26,20 +26,17 @@ namespace QuickSDL {
 		// Play Mode Entities
 		mPlayModes = new GameEntity(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.5f, Graphics::Instance()->SCREEN_HEIGHT*0.55f));
 		mOnePlayerMode = new Texture("Play Game", "emulogic.ttf", 16, {0, 0, 0});
-		mLoadGame = new Texture("Load Game", "emulogic.ttf", 16, {0, 0, 0});
 		mExitGame = new Texture("Exit Game", "emulogic.ttf", 16, {0, 0, 0});
 
 		mCursor = new Texture("cursor.png");
 
 		mOnePlayerMode->Parent(mPlayModes);
-		mLoadGame->Parent(mPlayModes);
 		mExitGame->Parent(mPlayModes);
 		mCursor->Parent(mPlayModes);
 
-		mOnePlayerMode->Pos(Vector2(0.0f, -125.0f));
-		mLoadGame->Pos(Vector2(0.0f,-80.0f));
+		mOnePlayerMode->Pos(Vector2(0.0f, -80.0f));
 		mExitGame->Pos(Vector2(0.0f,-35.0f));
-		mCursor->Pos(Vector2(-50.0f, -83.0f));
+		mCursor->Pos(Vector2(-50.0f, -38.0f));
 
 		mPlayModes->Parent(this);
 
@@ -66,8 +63,6 @@ namespace QuickSDL {
 		mOnePlayerMode = NULL;
 		delete mCursor;
 		mCursor = NULL;
-		delete mLoadGame;
-		mLoadGame = NULL;
 		delete mExitGame;
 		mExitGame = NULL;
 	}
@@ -84,7 +79,7 @@ namespace QuickSDL {
 			mSelectedMode = 0;
 		}
 		else if(mSelectedMode >  1){
-			mSelectedMode = 2;
+			mSelectedMode = 1;
 		}
 
 		mCursor->Pos(mCursorStartPos + mCursorOffset * mSelectedMode);
@@ -105,7 +100,6 @@ namespace QuickSDL {
 
 		mOnePlayerMode->Render();
 		mCursor->Render();
-		mLoadGame->Render();
 		mExitGame->Render();
 	}
 }

@@ -1,57 +1,58 @@
-// #ifndef _ENEMY_H
-// #define _ENEMY_H
-// #include "AnimatedTexture.hpp"
-// #include "Graphics.hpp"
+#ifndef _ENEMY_H
+#define _ENEMY_H
+#include "AnimatedTexture.hpp"
+#include "BezierPath.hpp"
+#include "Graphics.hpp"
+#include "PhysEntity.hpp"
 
 
-// namespace QuickSDL{
+class Enemy: public PhysEntity {
+
+private:
+	static std::vector<std::vector<Vector2>> sPaths;
+
+	enum STATES {flyIn};
 
 
+	bool alive(); 
+	bool hasCollided(int x);
+	void kill(); 
+	void changeSpeed(float x);
 
-// class Enemy: public GameEntity {
+	Timer* mTimer; 
 
-// private:
+	Texture* mTexture; 
 
-// //enum STATES {incoming, dead};
+	STATES mCurrentState;
 
-// bool alive(); 
-// bool hasCollided(int x);
-// void kill(); 
-// void changeSpeed(float x);
+	int mCurrentPath;
 
-// Timer* mTimer; 
+	int mCurrentWaypoint;
 
-// Texture* mTexture; 
+	const float EPSILON = 5.0f;
 
+	float mSpeed; 
+	Vector2 mMoveBounds; 
+	bool mAlive;
 
+public:
 
-// //STATES mCurrentState;
+	static void CreatePaths();
 
-// float mMoveSpeed; 
-// Vector2 mMoveBounds; 
-// bool mAlive;
+	Enemy(int path);
 
+	virtual ~Enemy();
 
-// public:
+	virtual void HandleFlyInState();
 
-
-// Enemy(float speed);
-
-// virtual ~Enemy();
-
-// // virtual void HandleIncomingState();
-// // virtual void HandleDeadState();
-// // void HandleStates();
+	void HandleStates();
 
 
-// // void Visible(bool visible);
+	// void Visible(bool visible);
 
 
-// void Update();
+	void Update();
 
-// void Render();
-
-
-// }; 
-// }
-// #endif
+	void Render();
+}; 
+#endif

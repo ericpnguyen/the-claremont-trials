@@ -24,9 +24,6 @@ private:
 	// Ground strip
 	Texture* mGroundStrip;
 
-	// Background
-	Texture* mBackground;
-
 	// Ready label
 	Texture* mReadyLabel;
 	

@@ -42,7 +42,23 @@ Level::Level(int stage, Player* player) {
 	
 	mCurrentState = running;
 
-	// Enemy::SetFormation(mFormation);
+	// Cloud background
+	mBackground = new Texture("background.png");
+	mBackground->Parent(this);	
+	mBackground->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
+	
+	// Enemy
+	mEnemyCount = 0;
+
+	std::string fullPath = SDL_GetBasePath();
+	fullPath.append("Enemy.xml");
+	mSpawningPatterns.LoadFile(fullPath.c_str());
+
+	mCurrentPriority = 0;
+	mCurrentIndex = 0;
+	mSpawningFinished = false;
+	mSpawnDelay = 2.0f;
+	mSpawnTimer = 0.0f;
 }
 
 Level::~Level(){
@@ -59,13 +75,20 @@ Level::~Level(){
 	
 	delete mGameOverLabel;
 	mGameOverLabel = NULL;
+
+	// Background
+	delete mBackground;
+	mBackground = NULL;
 	
+	// Enemy
+	// delete mEnemy;
+	// mEnemy = NULL;
 	
-	// for(int i = 0; i < mEnemies.size(); i++) {
+	for(int i = 0; i < mEnemies.size(); i++) {
 		
-	// 	delete mEnemies[i];
-	// 	mEnemies[i] = NULL;
-	// }
+		delete mEnemies[i];
+		mEnemies[i] = NULL;
+	}
 }
 
 
@@ -145,73 +168,57 @@ void Level::HandlePlayerDeath() {
 }
 
 
-// void Level::HandleEnemySpawning() {
-	
-// 	if(InputManager::Instance()->KeyPressed(SDL_SCANCODE_S) && mButterflyCount < MAX_BUTTERFLIES) {
-		
-// 		mButterflyCount++;
-// 	}
-	
-// 	if(InputManager::Instance()->KeyPressed(SDL_SCANCODE_D) && mWaspCount < MAX_WASPS) {
-		
-// 		mEnemies.push_back(new Wasp(mWaspCount, 0, false, false));
-// 		mWaspCount++;
-// 	}
-	
-// 	if(InputManager::Instance()->KeyPressed(SDL_SCANCODE_F) && mBossCount < MAX_BOSSES) {
-		
-// 		mEnemies.push_back(new Boss(mBossCount, 0, false));
-// 		mBossCount++;
-// 	}
-// }
+void Level::HandleEnemySpawning() {
 
+	mSpawnTimer += mTimer->DeltaTime();
 
-// void Level::HandleEnemyFormation() { 
-	
-	
-// 	mFormation->Update();
-// 	if(mButterflyCount == MAX_BUTTERFLIES && mWaspCount == MAX_WASPS && mBossCount == MAX_BOSSES) {
-		
-// 		bool flyIn = false;
-		
-// 		for(int i =0; i < mEnemies.size(); i++) {
-			
-// 			if(mEnemies[i]->CurrentState() == Enemy::flyIn)
+	if(mSpawnTimer >= mSpawnDelay) {
 
-// 				flyIn = true;
-// 		}
-		
-// 		if(!flyIn) {
-			
-// 			mFormation->Lock();
-// 		}
-// 	}
-// } 
+		XMLElement* element = mSpawningPatterns.FirstChildElement("Level")->FirstChild()->NextSiblingElement();
+		bool spawned = false;
+		bool priorityFound = false;
 
+		while(element != NULL) {
 
-// void Level::HandleEnemyDiving() {
-	
-// 	if(mFormation->Locked()) {
-		
-		
-// 		if(InputManager::Instance()->KeyPressed(SDL_SCANCODE_V)) {
-			
-// 			for (int i = (int)mEnemies.size() - 1; i >= 0; i-- ) {
-				
-// 				if(mEnemies[i]->Type() == Enemy::wasp && mEnemies[i]->CurrentState() == Enemy::formation) {
-					
-					
-// 					mEnemies[i]->Dive();
-// 					break;
-// 				}
-// 			}
-// 		}
-// 	}
+			int priority = element->IntAttribute("priority");
+			int path = element->IntAttribute("path");
+			XMLElement* child = element->FirstChildElement();
 
-	
-	
-// }
+			if(mCurrentPriority == priority) {
 
+				priorityFound =true;
+				for(int i = 0; i < mCurrentIndex && child != NULL; i++) {
+					child = child->NextSiblingElement();
+				}
+
+				if(child != NULL) {
+
+					int index = child->IntAttribute("index");
+
+					mEnemies.push_back(new Enemy(path));
+					mEnemyCount++;
+
+					spawned = true;
+				}
+			}
+		element = element->NextSiblingElement();
+		}
+
+		if(!priorityFound) {
+			mSpawningFinished = true;
+		}
+		else {
+			if(!spawned) {
+				mCurrentPriority++;
+				mCurrentIndex = 0;
+			}
+			else {
+				mCurrentIndex++;
+			}
+		}
+		mSpawnTimer = 0.0f;
+	}
+}
 
 Level::LEVEL_STATES Level::State() {
 	
@@ -226,12 +233,12 @@ void Level::Update() {
 		
 	} else {
 		
-		// HandleEnemySpawning();
-		// HandleEnemyFormation();
-		// HandleEnemyDiving();
-		
-		// for (int i = 0; i < mEnemies.size(); i++ )
-		// 	mEnemies[i]->Update();
+		if(!mSpawningFinished)
+			HandleEnemySpawning();
+
+		// Enemy
+		for (int i = 0; i < mEnemies.size(); i++)
+			mEnemies[i]->Update();
 		
 		HandleCollisions();
 		
@@ -263,6 +270,11 @@ void Level::Render() {
 			
 		}
 	} else {
+
+		// Enemy
+		mBackground->Render();
+		for (int i = 0; i < mEnemies.size(); i++)
+			mEnemies[i]->Render();
 		
 		// for (int i = 0; i < mEnemies.size(); i++ )
 		// 	mEnemies[i]->Render();
