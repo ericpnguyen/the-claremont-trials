@@ -1,3 +1,8 @@
+/*
+** Code by Ather Omar
+**
+*/
+
 #include "PhysEntity.hpp"
 #include "PhysicsHelper.hpp"
 #include "PhysicsManager.hpp"
@@ -32,7 +37,7 @@ unsigned long PhysEntity::GetId() {
 bool PhysEntity::CheckCollision(PhysEntity* other) {
 	if(IgnoreCollisions() || other->IgnoreCollisions())
 		return false;
-	
+
 	return ColliderColliderCheck(mBroadPhaseCollider, other->mBroadPhaseCollider);
 }
 

@@ -8,6 +8,8 @@ Bullet::Bullet(bool friendly) {
 
 	mSpeed = 1000.0f;
 
+	// Texture
+
 	mTexture = new Texture("bullet3.png");
 	mTexture->Parent(this);
 	mTexture->Pos(VEC2_ZERO);
@@ -49,9 +51,9 @@ bool Bullet::IgnoreCollisions() {
 	return !Active();
 }
 
-
 void Bullet::Update() {
 
+	// Move bullet up and get rid of it if it's offscreen
 	if (Active()) {
 		Translate(-VEC2_UP * mSpeed * mTimer->DeltaTime(), local);
 

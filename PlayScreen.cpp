@@ -1,16 +1,17 @@
+// Screen where playing happens
+
 #include "PlayScreen.hpp"
 #include "Scoreboard.hpp"
-#include <iostream>
 
 PlayScreen::PlayScreen() {
 	
 	mTimer = Timer::Instance();
 	mInput = InputManager::Instance();
 
-	
-	mStartLabel = new Texture("START", "emulogic.ttf", 32, { 150, 0, 0 });
-	mStartLabel->Parent(this);
-	mStartLabel->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH * 0.4f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
+	mLevel = NULL;
+	mLevelStartDelay = 1.0f;
+	mLevelStarted = false;
+	mPlayer = NULL;
 	
 	//mTopBar
 	mTopBar = new GameEntity(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.5f, 80.0f));
@@ -19,10 +20,6 @@ PlayScreen::PlayScreen() {
 	mTopScoreLabel = new Texture("HI-SCORE", "emulogic.ttf", 32, {150, 0, 0});
 	mTopScoreLabel->Parent(mTopBar);
 	mTopScoreLabel->Pos(Vector2(-30.0f, -50.0f));
-
-	mLevel = NULL;
-	mLevelStartDelay = 1.0f;
-	mLevelStarted = false;
 
 	// Ground strip
 	mGroundStrip = new Texture("groundstrip.png");
@@ -34,8 +31,6 @@ PlayScreen::PlayScreen() {
 	mReadyLabel->Parent(this);
 	mReadyLabel->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 	
-	mPlayer = NULL;
-
 	mPlayerOneScore = new Scoreboard();
 	mTopScore = new Scoreboard();
 
@@ -59,18 +54,20 @@ PlayScreen::~PlayScreen() {
 	mTimer = NULL;
 	mInput = NULL;
 
+	// HI-SCORE label
+
 	delete mTopScoreLabel;
 	mTopScoreLabel = NULL;
 	
-	delete mStartLabel;
-	mStartLabel = NULL;
-
+	// Top entity
 	delete mTopBar;
 	mTopBar = NULL;
 
+	// Current score
 	delete mPlayerOneScore;
 	mPlayerOneScore = NULL;
 
+	// Hi-score
 	delete mTopScore;
 	mTopScore = NULL;
 	
@@ -101,16 +98,12 @@ void PlayScreen::StartNextLevel() {
 
 
 void PlayScreen::StartNewGame() {
+
 	delete mPlayer;
 	mPlayer = new Player();
 	mPlayer->Parent(this);
 	mPlayer->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH * 0.1f, Graphics::Instance()->SCREEN_HEIGHT * 0.68f));
 	mPlayer->Active(false);
-
-
-	
-	
-	
 	mGameStarted = true;
 	mLevelStarted = false;
 	mLevelStartTimer = 0.0f;
@@ -118,6 +111,7 @@ void PlayScreen::StartNewGame() {
 }
 
 void PlayScreen::SaveScore() {
+	// Change score in XML
 	XMLElement* element = mHighScore.FirstChildElement("Level")->FirstChild()->NextSiblingElement();
 	int currentHighScore = element->IntAttribute("score");
 
@@ -129,29 +123,27 @@ void PlayScreen::SaveScore() {
 }
 
 void PlayScreen::LoadScore() {
+	// Load score from XML
 	XMLElement* element = mHighScore.FirstChildElement("Level")->FirstChild()->NextSiblingElement();
 	int currentHighScore = element->IntAttribute("score");
 
 	mTopScore->Score(currentHighScore);
 }
 
+// Run the game for 45 seconds
 bool PlayScreen::GameOver() {
-	/*
-	if(mTimer->DeltaTime() == 5.0f)
-		return true;;
 
-	return false;*/
 	if (mLevelStartTimer > 45.0f) {
-	mLevelStartTimer = 0.0f;
-	return true;
-}	
-
+		mLevelStartTimer = 0.0f;
+		return true;
+	}	
 	return false;
 }
 
 int counter = 0;
 
 void PlayScreen::Update() {
+	// Load score once
 	while (counter < 1) {
 		LoadScore();
 		counter++;
@@ -163,11 +155,9 @@ void PlayScreen::Update() {
 			
 			if(mLevelStartTimer >= mLevelStartDelay)
 				StartNextLevel();
-			
 		}
-		
-		
-	} else {
+	} 
+	else {
 		if(!Mix_PlayingMusic()) {
 			
 			mGameStarted = true;
@@ -175,33 +165,33 @@ void PlayScreen::Update() {
 	}
 	
 	if(mGameStarted ) {
-	mLevelStartTimer += mTimer->DeltaTime();
-
 		
-		if(mLevelStarted) {
-			mLevel->Update();
+		mLevelStartTimer += mTimer->DeltaTime();
 
-			if(mLevel->State() == Level::finished) {
-				
-				mLevelStarted = false;
-			}
+		if(mLevelStarted) {
+			
+			mLevel->Update();
 		}
+
 		mPlayer->Update();
 		mPlayerOneScore->Score(mPlayer->GPA());
 		SaveScore();
-		}
+	}
 }
 
 void PlayScreen::Render() {	
 	if(mGameStarted) {
 		
 		if(mLevelStarted)
-			mLevel->Render();
 
+			mLevel->Render();
 			mGroundStrip->Render();
+
 			if(mLevelStartTimer > 0.0f && mLevelStartTimer < 1.5f) {
+
 				mReadyLabel->Render();
 			}
+
 			mPlayer->Render();
 			mPlayerOneScore->Render();
 			mTopScoreLabel->Render();

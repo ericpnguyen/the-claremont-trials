@@ -1,3 +1,5 @@
+// Bezier path for enemies to travel
+
 #include "BezierPath.hpp"
 
 BezierPath::BezierPath() {

@@ -1,3 +1,5 @@
+// Abstract class for physic colliders circle and box
+
 #ifndef _COLLIDER_H
 #define _COLLIDER_H
 #include "Texture.hpp"
@@ -14,8 +16,6 @@ public:
 
 protected:
 	ColliderType mType;
-	//static const bool DEBUG_COLLIDERS = true;
-	//Texture* mDebugTexture;
 
 public:
 	Collider(ColliderType type);
@@ -26,9 +26,6 @@ public:
 	ColliderType GetType();
 
 	virtual void Render();
-
-protected:
-	//void SetDebugTexture(Texture* texture);
 };
 
 #endif // _COLLIDER_H

@@ -1,3 +1,8 @@
+/*
+** Code by Ather Omar
+**
+*/
+
 #include "PhysicsManager.hpp"
 
 PhysicsManager* PhysicsManager::sInstance = nullptr;

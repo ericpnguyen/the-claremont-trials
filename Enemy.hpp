@@ -10,25 +10,20 @@
 class Enemy: public PhysEntity {
 
 private:
+	
 	static std::vector<std::vector<Vector2>> sPaths;
 
 private:
+
 	enum STATES {flyIn};
 
-
 	bool alive(); 
-	bool hasCollided(int x);
-	void kill(); 
-	void changeSpeed(float x);
 
 	Timer* mTimer; 
-
 	Texture* mTexture; 
 
 	STATES mCurrentState;
-
 	int mCurrentPath;
-
 	int mCurrentWaypoint;
 
 	const float EPSILON = 5.0f;
@@ -39,13 +34,12 @@ private:
 
 	bool mWasHit;
 
-	Texture* mDeathAnimation; 
-
 protected:
+
 	bool IgnoreCollisions() override;
-	void HandleDeadState();
 
 public:
+
 	static Player* sPlayer;
 	static void CurrentPlayer(Player* player);
 
@@ -57,15 +51,11 @@ public:
 
 	virtual void HandleFlyInState();
 
-	void HandleStates();
-
 	// Hit functions
-
 	void Hit(PhysEntity* other) override;
 	bool WasHit();
 
 	void Update() override;
-
 	void Render() override;
 }; 
 #endif

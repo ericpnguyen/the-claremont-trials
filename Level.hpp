@@ -1,3 +1,5 @@
+// Used to set up our only level
+
 #ifndef Level_h
 #define Level_h
 #include "InputManager.hpp"
@@ -7,17 +9,13 @@
 
 using namespace tinyxml2;
 
-
 class Level : public GameEntity {
-	
-public:
-	
-	
-	enum LEVEL_STATES { running, finished, gameover };
-	
+		
 private:
+
 	Timer* mTimer;
 	
+	// Stage variables
 	int mStage;
 	bool mStageStarted;
 	
@@ -31,21 +29,11 @@ private:
 	float mReadyLabelOnScreen;
 	float mReadyLabelOffScreen;
 	
-	
 	Player* mPlayer;
-	bool mPlayerHit;
-	float mPlayerRespawnDelay;
-	float mPlayerRespawnTimer;
-	float mPlayerRespawnLabelOnScreen;
 	
 	Texture* mGameOverLabel;
 	bool mGameOver;
-	float mGameOverDelay;
-	float mGameOverTimer;
-	float mGameOverLabelOnScreen;
 	
-	LEVEL_STATES mCurrentState;
-
 	// Background
 	Texture* mBackground;
 
@@ -54,7 +42,6 @@ private:
 	std::vector<Enemy*> mEnemies;
 	
 	XMLDocument mSpawningPatterns;
-	
 	int mCurrentPriority;
 	int mCurrentIndex;	
 
@@ -65,26 +52,16 @@ private:
 private:
 	
 	void StartStage();
-	void HandleStartLabels();
-	void HandleCollisions();
-	void HandlePlayerDeath();
-	
 	
 	void HandleEnemySpawning();
-	void HandleEnemyFormation();
-	void HandleEnemyDiving();
-	
 	
 public:
 	
 	Level(int stage, Player* player);
 	~Level();
-	
-	LEVEL_STATES State();
-	
+		
 	void Update();
 	
 	void Render();
 };
-
 #endif

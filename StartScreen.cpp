@@ -1,3 +1,5 @@
+// Main menu
+
 #include "StartScreen.hpp"
 
 namespace QuickSDL {
@@ -6,12 +8,6 @@ namespace QuickSDL {
 
 		mTimer = Timer::Instance();
 		mInput = InputManager::Instance();
-
-		// Top Bar Entities
-		mTopBar = new GameEntity(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.5f, 80.0f));
-
-		mTopBar->Parent(this);
-		mTopBar->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH*0.5f, 25.0f));
 
 		// Logo Entity
 		mLogo = new Texture("logo.png");
@@ -41,9 +37,6 @@ namespace QuickSDL {
 	}
 
 	StartScreen::~StartScreen() {
-		// Freeing Top Bar Entities
-		delete mTopBar;
-		mTopBar = NULL;
 
 		// Freeing Logo Entity
 		delete mLogo;
@@ -66,6 +59,7 @@ namespace QuickSDL {
 	}
 
 	void StartScreen::ChangeSelectedMode(int change){
+
 		mSelectedMode += change;
 
 		if(mSelectedMode < 0){
@@ -80,6 +74,7 @@ namespace QuickSDL {
 
 
 	void StartScreen::Update() {
+
 		if(mInput->KeyPressed(SDL_SCANCODE_DOWN))
 			ChangeSelectedMode(1);
 		else if(mInput->KeyPressed(SDL_SCANCODE_UP))
@@ -87,6 +82,7 @@ namespace QuickSDL {
 	}
 
 	void StartScreen::Render() {
+		
 		mLogo->Render();
 
 		mOnePlayerMode->Render();

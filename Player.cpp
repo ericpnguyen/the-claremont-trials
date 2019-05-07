@@ -5,36 +5,27 @@
 Player::Player(){
 
     mTimer = Timer::Instance();
-
     mInput = InputManager::Instance();
-
     mAudio = AudioManager::Instance();
 
+    // Player variables
     mVisible = false;
-
     mAnimating = false;
-
-    mWasHit = false;
-
     mGPA = 200;
-    mLives = 3;
 
+    // Player texture
     mPlayer = new Texture("player.png");
     mPlayer->Parent(this);
     mPlayer->Pos(VEC2_ZERO);
 
+    // Movement of player
     mMoveSpeed = 1500.0f;
     mMoveBounds = Vector2(20.0f, 1000.0f);
 
+    // Creating bullets
     for(int i = 0; i < MAX_BULLETS; i++) {
         mBullets[i] = new Bullet(true);
     }
-
-    AddCollider(new BoxCollider(Vector2(15.0f, 67.0f)));
-    AddCollider(new BoxCollider(Vector2(15.0f, 40.0f)), Vector2(15.0f, 10.0f));
-    AddCollider(new BoxCollider(Vector2(15.0f, 40.0f)), Vector2(-15.0f, 10.0f));
-
-    //mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::Friendly);
 }
 
 Player::~Player(){
@@ -43,20 +34,20 @@ Player::~Player(){
     mInput = NULL;
     mAudio = NULL;
 
+    // Player 
     delete mPlayer;
     mPlayer = NULL;
 
+    // Bullets
     for (int i = 0; i < MAX_BULLETS; i++) {
         delete mBullets[i];
         mBullets[i] = NULL;
     }
 }
 
-bool Player::IgnoreCollisions() {
-    return !mVisible || mAnimating;
-}
+// Keys to move player
+void Player::HandleMovement() {
 
-void Player::HandleMovement(){
     if(mInput->KeyDown(SDL_SCANCODE_RIGHT)){
         Translate(VEC2_RIGHT*mMoveSpeed*mTimer->DeltaTime(), world);
     }
@@ -76,10 +67,15 @@ void Player::HandleMovement(){
     Pos(pos);
 }
 
+// Press space to fire
 void Player::HandleFiring() {
+
     if(mInput->KeyPressed(SDL_SCANCODE_SPACE)) {
+
         for(int i = 0; i < MAX_BULLETS; i++) {
+
             if(!mBullets[i]->Active()) {
+
                 mBullets[i]->Fire(Pos());
                 mAudio->PlaySFX("shotgun.wav");
                 break;
@@ -88,62 +84,49 @@ void Player::HandleFiring() {
     }
 }
 
-void Player::Visible(bool visible){
+void Player::Visible(bool visible) {
+
     mVisible = visible;
 }
 
-void Player::Hit(PhysEntity* other) {
-    //mLives--;
-    //mAnimating = true;
-    //mWasHit = true;
-}
+bool Player::IsAnimating() {
 
-bool Player::WasHit() {
-    return mWasHit;
-}
-
-bool Player::IsAnimating(){
     return mAnimating;
 }
 
 int Player::GPA(){
+
     return mGPA;
 }
 
-int Player::Lives(){
-    return mLives;
-}
+void Player::AddGPA(int change) {
 
-void Player::AddGPA(int change){
     mGPA += change;
 }
 
-void Player::Update(){
-    if (mAnimating){
+void Player::Update() {
 
-        if(mWasHit) {
-            mWasHit = false;
-        }
+    if(Active()) {
 
-    }
-    else{
-        if(Active()){
-            HandleMovement();
-            HandleFiring();
-        }
+        HandleMovement();
+        HandleFiring();
     }
 
+    // Update bullets
     for (int i = 0; i < MAX_BULLETS; i++) {
         mBullets[i]->Update();
     }
 }
 
-void Player::Render(){
-    if (mVisible){
-        if(mAnimating){
+// Render bullets and player
+void Player::Render() {
+
+    if (mVisible) {
+
+        if(mAnimating) {
 
         }
-        else{
+        else {
             mPlayer->Render();
         }
     }

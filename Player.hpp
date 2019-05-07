@@ -7,33 +7,30 @@
 
 using namespace QuickSDL;
 
-class Player : public PhysEntity {
+class Player : public GameEntity {
 
 private:
 
+    // Regular instances
     Timer* mTimer;
     InputManager* mInput;
     AudioManager* mAudio;
 
+    // Player variables
     bool mVisible;
     bool mAnimating;
-    bool mWasHit;
-
-    float mGPA;
-    int mLives;
+    int mGPA;
 
     Texture* mPlayer;
 
     float mMoveSpeed;
     Vector2 mMoveBounds;
 
-    // Bullet array
+    // Bullet array meaning only two bullets on screen at once
     static const int MAX_BULLETS = 2;
     Bullet* mBullets[MAX_BULLETS];
 
 private:
-
-    bool IgnoreCollisions() override;
 
     void HandleMovement();
     void HandleFiring();
@@ -45,13 +42,9 @@ public:
 
     void Visible(bool visible);
 
-    void Hit(PhysEntity* other) override;
-    bool WasHit();
-
     bool IsAnimating();
 
     int GPA();
-    int Lives();
 
     void AddGPA(int change);
 

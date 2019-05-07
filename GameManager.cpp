@@ -52,6 +52,7 @@ namespace QuickSDL {
 		//Initialize Timer
 		mTimer = Timer::Instance();
 
+		//Choosing which colliders harm which ones
 		mPhysMgr = PhysicsManager::Instance();
 		mPhysMgr->SetLayerCollisionMask(PhysicsManager::CollisionLayers::Friendly, PhysicsManager::CollisionFlags::Hostile | PhysicsManager::CollisionFlags::HostileProjectiles);
 		mPhysMgr->SetLayerCollisionMask(PhysicsManager::CollisionLayers::FriendlyProjectiles, PhysicsManager::CollisionFlags::Hostile);
@@ -100,8 +101,6 @@ namespace QuickSDL {
 
 		//GameEntity Updates should happen here
 		mScreenMgr->Update();
-
-
 	}
 
 	void GameManager::LateUpdate() {

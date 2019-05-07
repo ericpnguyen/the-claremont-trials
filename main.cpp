@@ -1,3 +1,5 @@
+// Main file that runs GameManager object
+
 #include "GameManager.hpp"
 
 int main(int argc, char* argv[]) {

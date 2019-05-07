@@ -1,6 +1,7 @@
+// Used to decide switching between main menu and play screen
+
 #include "ScreenManager.hpp"
 #include "StartScreen.hpp"
-#include <iostream>
 
 ScreenManager* ScreenManager::sInstance = NULL;
 
@@ -10,15 +11,12 @@ ScreenManager* ScreenManager::Instance() {
 		sInstance = new ScreenManager();
 	
 	return sInstance;
-	
 }
 
 void ScreenManager::Release() {
 	
 	delete sInstance;
 	sInstance = NULL;
-	
-	
 }
 
 ScreenManager::ScreenManager() {
@@ -37,7 +35,6 @@ ScreenManager::~ScreenManager() {
 	
 	mInput = NULL;
 	
-	
 	delete mStartScreen;
 	mStartScreen = NULL;
 	
@@ -45,9 +42,7 @@ ScreenManager::~ScreenManager() {
 	mPlayScreen = NULL;
 }
 
-
 void ScreenManager::Update() {
-	
 	
 	switch(mCurrentScreen) {
 			
@@ -55,7 +50,6 @@ void ScreenManager::Update() {
 			mStartScreen->Update();
 
 			if(mInput->KeyPressed(SDL_SCANCODE_RETURN) && mStartScreen->SelectedMode() == 0) {
-				//mAudio->PauseMusic();
 				mCurrentScreen = play;
 				mPlayScreen->StartNewGame();
 			}
@@ -65,7 +59,6 @@ void ScreenManager::Update() {
 			}
 
 			break;
-			
 		case play:
 			mPlayScreen->Update();
 
@@ -74,22 +67,17 @@ void ScreenManager::Update() {
 			}
 			break;
 	}
-	
 }
 
 void ScreenManager::Render() {
 
-	
 	switch(mCurrentScreen) {
 			
 		case start:
-			
 			mStartScreen->Render();
 			break;
-			
 		case play:
 			mPlayScreen->Render();			
 			break;
 	}
-	
 }

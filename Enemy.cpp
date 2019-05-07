@@ -9,6 +9,7 @@ Player* Enemy::sPlayer = nullptr;
 
 void Enemy::CreatePaths() {
 
+    // Creating paths for enemy homework assignments
     int currentPath = 0;
     BezierPath* path = new BezierPath();
     path->AddCurve( {Vector2(0.0f, 0.0f), Vector2(0.0f, 0.0f), Vector2(0.0f, 896.0f), Vector2(0.0f, 896.0f) }, 1);
@@ -180,47 +181,46 @@ void Enemy::CreatePaths() {
 
 Enemy::Enemy(int path)
 {
+    // Hw assignment moves
     mSpeed = 400.0f; 
     mMoveBounds = Vector2(0.0f, 800.0f);
 
     mTimer = Timer::Instance();
+
+    // Paths
     mCurrentPath = path;
-
     mCurrentState = flyIn;
-
     mCurrentWaypoint = 0;
     Pos(sPaths[mCurrentPath][mCurrentWaypoint]);
 
+    // Hw texture
     mTexture = new Texture("A.png");
     mTexture->Parent(this);
     mTexture->Pos(VEC2_ZERO);
     mAlive = true; 
     mWasHit = false;
 
+    // Collider 
     AddCollider(new BoxCollider(mTexture->ScaledDimensions()));
     mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::Hostile);
-
-    mDeathAnimation = new Texture("rock.png");
-    mDeathAnimation->Parent(this);
-    mDeathAnimation->Pos(VEC2_ZERO);
 }
 
-//deconstructor
+// Deconstructor
 Enemy::~Enemy()
 {
     mTimer = NULL;
 
+    // Texture
     delete mTexture;
     mTexture = NULL;
-
-    delete mDeathAnimation;
-    mDeathAnimation = NULL;
 }
 
+// Grab current player
 void Enemy::CurrentPlayer(Player* player) {
     sPlayer = player;
 }
 
+// When homeworks first come in how to translate
 void Enemy::HandleFlyInState() {
     if((sPaths[mCurrentPath][mCurrentWaypoint] - Pos()).MagnitudeSqr() < EPSILON) {
         mCurrentWaypoint++;
@@ -231,17 +231,6 @@ void Enemy::HandleFlyInState() {
     }
 }
 
-void Enemy::HandleDeadState() {
-}
-
-void Enemy::HandleStates() {
-    switch(mCurrentState) {
-        case flyIn:
-            HandleFlyInState();
-            break;
-    }
-}
-
 bool Enemy::IgnoreCollisions() {
     return !alive();
 }
@@ -249,20 +238,6 @@ bool Enemy::IgnoreCollisions() {
 bool Enemy::alive()
 {
 	return mAlive;
-}
-
-bool Enemy::hasCollided(int pos)
-{
-    return false;
-}
-
-void Enemy::kill()
-{   
-}    
-
-void Enemy::changeSpeed(float x)
-{
-    mSpeed = x; 
 }
 
 void Enemy::Hit(PhysEntity* other) {
@@ -278,23 +253,14 @@ bool Enemy::WasHit() {
 void Enemy::Update()
 {
     if(Active()) {
-        HandleStates();
-    }
-    if(mWasHit) {
-        this->Active(false);
+        HandleFlyInState();
     }
 }
-
-// void Enemy:: HandleIncomingState(){}
 
 void Enemy::Render()
 {
     if (Active()) {
         mTexture->Render();
         PhysEntity::Render();
-        // for (int i = 0; i < sPaths[mCurrentPath].size() - 1; i++)
-        // {
-        //     Graphics::Instance()->DrawLine(sPaths[mCurrentPath][i].x, sPaths[mCurrentPath][i].y, sPaths[mCurrentPath][i+1].x, sPaths[mCurrentPath][i+1].y);
-        // }
     }
 }

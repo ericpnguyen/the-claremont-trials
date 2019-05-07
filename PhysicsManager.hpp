@@ -1,3 +1,8 @@
+/*
+** Code by Ather Omar
+**
+*/
+
 #ifndef _PHYSICSMANAGER_H
 #define _PHYSICSMANAGER_H
 
