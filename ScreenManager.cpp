@@ -26,6 +26,7 @@ ScreenManager::ScreenManager() {
 	
 	mStartScreen = new StartScreen();
 	mPlayScreen = new PlayScreen();
+	mPauseScreen = new PauseScreen();
 	
 	mCurrentScreen = start;
 	mAudio->PlayMusic("menu.mp3");
@@ -40,6 +41,9 @@ ScreenManager::~ScreenManager() {
 	
 	delete mPlayScreen;
 	mPlayScreen = NULL;
+
+	delete mPauseScreen;
+	mPauseScreen = NULL;
 }
 
 void ScreenManager::Update() {
@@ -65,7 +69,21 @@ void ScreenManager::Update() {
 			if(mPlayScreen->GameOver()) {
 				exit(1);
 			}
+			else if(mInput->KeyPressed(SDL_SCANCODE_P)){
+				mCurrentScreen = pause;
+			}
 			break;
+		
+		case pause:
+			mPauseScreen->Update();
+			if(mInput->KeyPressed(SDL_SCANCODE_RETURN) && mPauseScreen->SelectedMode() == 0) {
+				mAudio->PauseMusic();
+				mCurrentScreen = play;
+			}
+
+			if(mInput->KeyPressed(SDL_SCANCODE_RETURN) && mPauseScreen->SelectedMode() == 1) {
+				exit(1);
+			}
 	}
 }
 
@@ -78,6 +96,9 @@ void ScreenManager::Render() {
 			break;
 		case play:
 			mPlayScreen->Render();			
+			break;
+		case pause:
+			mPauseScreen->Render();
 			break;
 	}
 }

@@ -34,6 +34,7 @@ private:
 
 	// Ready label
 	Texture* mReadyLabel;
+
 	
 	Player* mPlayer;
 

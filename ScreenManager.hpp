@@ -5,12 +5,13 @@
 #include "StartScreen.hpp"
 #include "PlayScreen.hpp"
 #include "AudioManager.hpp"
+#include "PauseScreen.hpp"
 
 class ScreenManager {
 	
 private:
 	
-	enum SCREENS { start, play };
+	enum SCREENS { start, play, pause};
 	
 	static ScreenManager* sInstance;
 	
@@ -19,7 +20,8 @@ private:
 	
 	StartScreen* mStartScreen;
 	PlayScreen* mPlayScreen;
-	
+	PauseScreen* mPauseScreen;
+
 	SCREENS mCurrentScreen;
 	
 public:
