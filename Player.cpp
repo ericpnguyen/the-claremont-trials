@@ -1,29 +1,30 @@
 #include "Player.hpp"
+#include "BoxCollider.hpp"
+#include "PhysicsManager.hpp"
 
 Player::Player(){
 
     mTimer = Timer::Instance();
-
     mInput = InputManager::Instance();
-
     mAudio = AudioManager::Instance();
 
+    // Player variables
     mVisible = false;
-
     mAnimating = false;
+    mGPA = 200;
 
-    mGPA = 0;
-    mLives = 3;
-
+    // Player texture
     mPlayer = new Texture("player.png");
     mPlayer->Parent(this);
     mPlayer->Pos(VEC2_ZERO);
 
-    mMoveSpeed = 400.0f;
+    // Movement of player
+    mMoveSpeed = 1500.0f;
     mMoveBounds = Vector2(20.0f, 1000.0f);
 
+    // Creating bullets
     for(int i = 0; i < MAX_BULLETS; i++) {
-        mBullets[i] = new Bullet();
+        mBullets[i] = new Bullet(true);
     }
 }
 
@@ -33,16 +34,20 @@ Player::~Player(){
     mInput = NULL;
     mAudio = NULL;
 
+    // Player 
     delete mPlayer;
     mPlayer = NULL;
 
+    // Bullets
     for (int i = 0; i < MAX_BULLETS; i++) {
         delete mBullets[i];
         mBullets[i] = NULL;
     }
 }
 
-void Player::HandleMovement(){
+// Keys to move player
+void Player::HandleMovement() {
+
     if(mInput->KeyDown(SDL_SCANCODE_RIGHT)){
         Translate(VEC2_RIGHT*mMoveSpeed*mTimer->DeltaTime(), world);
     }
@@ -62,10 +67,15 @@ void Player::HandleMovement(){
     Pos(pos);
 }
 
+// Press space to fire
 void Player::HandleFiring() {
+
     if(mInput->KeyPressed(SDL_SCANCODE_SPACE)) {
+
         for(int i = 0; i < MAX_BULLETS; i++) {
+
             if(!mBullets[i]->Active()) {
+
                 mBullets[i]->Fire(Pos());
                 mAudio->PlaySFX("shotgun.wav");
                 break;
@@ -74,48 +84,49 @@ void Player::HandleFiring() {
     }
 }
 
-void Player::Visible(bool visible){
+void Player::Visible(bool visible) {
+
     mVisible = visible;
 }
 
-bool Player::IsAnimating(){
+bool Player::IsAnimating() {
+
     return mAnimating;
 }
 
 int Player::GPA(){
+
     return mGPA;
 }
 
-int Player::Lives(){
-    return mLives;
-}
+void Player::AddGPA(int change) {
 
-void Player::AddGPA(int change){
     mGPA += change;
 }
 
-void Player::Update(){
-    if (mAnimating){
+void Player::Update() {
 
-    }
-    else{
-        if(Active()){
-            HandleMovement();
-            HandleFiring();
-        }
+    if(Active()) {
+
+        HandleMovement();
+        HandleFiring();
     }
 
+    // Update bullets
     for (int i = 0; i < MAX_BULLETS; i++) {
         mBullets[i]->Update();
     }
 }
 
-void Player::Render(){
-    if (mVisible){
-        if(mAnimating){
+// Render bullets and player
+void Player::Render() {
+
+    if (mVisible) {
+
+        if(mAnimating) {
 
         }
-        else{
+        else {
             mPlayer->Render();
         }
     }

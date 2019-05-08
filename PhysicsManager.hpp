@@ -1,3 +1,8 @@
+/*
+** Code by Ather Omar
+**
+*/
+
 #ifndef _PHYSICSMANAGER_H
 #define _PHYSICSMANAGER_H
 
@@ -7,7 +12,7 @@
 class PhysicsManager {
 public:
 	enum class CollisionLayers {
-		Frinedly = 0,
+		Friendly = 0,
 		FriendlyProjectiles ,
 		Hostile,
 		HostileProjectiles,

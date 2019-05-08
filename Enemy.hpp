@@ -4,29 +4,26 @@
 #include "BezierPath.hpp"
 #include "Graphics.hpp"
 #include "PhysEntity.hpp"
+#include "Player.hpp"
 
 
 class Enemy: public PhysEntity {
 
 private:
+	
 	static std::vector<std::vector<Vector2>> sPaths;
+
+private:
 
 	enum STATES {flyIn};
 
-
 	bool alive(); 
-	bool hasCollided(int x);
-	void kill(); 
-	void changeSpeed(float x);
 
 	Timer* mTimer; 
-
 	Texture* mTexture; 
 
 	STATES mCurrentState;
-
 	int mCurrentPath;
-
 	int mCurrentWaypoint;
 
 	const float EPSILON = 5.0f;
@@ -35,7 +32,16 @@ private:
 	Vector2 mMoveBounds; 
 	bool mAlive;
 
+	bool mWasHit;
+
+protected:
+
+	bool IgnoreCollisions() override;
+
 public:
+
+	static Player* sPlayer;
+	static void CurrentPlayer(Player* player);
 
 	static void CreatePaths();
 
@@ -45,14 +51,11 @@ public:
 
 	virtual void HandleFlyInState();
 
-	void HandleStates();
+	// Hit functions
+	void Hit(PhysEntity* other) override;
+	bool WasHit();
 
-
-	// void Visible(bool visible);
-
-
-	void Update();
-
-	void Render();
+	void Update() override;
+	void Render() override;
 }; 
 #endif

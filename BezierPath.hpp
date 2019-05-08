@@ -1,3 +1,5 @@
+// Bezier path for enemies to travel
+
 #ifndef _BEZIERPATH_H
 #define _BEZIERPATH_H
 

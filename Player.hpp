@@ -11,23 +11,23 @@ class Player : public GameEntity {
 
 private:
 
+    // Regular instances
     Timer* mTimer;
     InputManager* mInput;
     AudioManager* mAudio;
 
+    // Player variables
     bool mVisible;
     bool mAnimating;
-
     int mGPA;
-    int mLives;
 
     Texture* mPlayer;
 
     float mMoveSpeed;
     Vector2 mMoveBounds;
 
-    // Bullet array
-    static const int MAX_BULLETS = 5;
+    // Bullet array meaning only two bullets on screen at once
+    static const int MAX_BULLETS = 2;
     Bullet* mBullets[MAX_BULLETS];
 
 private:
@@ -40,22 +40,16 @@ public:
     Player();
     ~Player();
 
-    void Visible(bool visitive);
+    void Visible(bool visible);
+
     bool IsAnimating();
 
     int GPA();
-    int Lives();
 
     void AddGPA(int change);
 
-    void Update();
+    void Update() override;
 
-    void Render();
+    void Render() override;
 };
-
-
-
-
-
-
 #endif

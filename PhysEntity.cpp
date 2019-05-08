@@ -1,8 +1,15 @@
+/*
+** Code by Ather Omar
+**
+*/
+
 #include "PhysEntity.hpp"
 #include "PhysicsHelper.hpp"
+#include "PhysicsManager.hpp"
 
 PhysEntity::PhysEntity() {
 	mBroadPhaseCollider = nullptr;
+	mId = 0;
 }
 
 PhysEntity::~PhysEntity() {
@@ -17,6 +24,10 @@ PhysEntity::~PhysEntity() {
 		delete mBroadPhaseCollider;
 		mBroadPhaseCollider = nullptr;
 	}
+
+	if(mId != 0) {
+		PhysicsManager::Instance()->UnregisterEntity(mId);
+	}
 }
 
 unsigned long PhysEntity::GetId() {
@@ -24,7 +35,18 @@ unsigned long PhysEntity::GetId() {
 }
 
 bool PhysEntity::CheckCollision(PhysEntity* other) {
+	if(IgnoreCollisions() || other->IgnoreCollisions())
+		return false;
+
 	return ColliderColliderCheck(mBroadPhaseCollider, other->mBroadPhaseCollider);
+}
+
+void PhysEntity::Hit(PhysEntity* other) {
+
+}
+
+bool PhysEntity::IgnoreCollisions() {
+	return false;
 }
 
 void PhysEntity::AddCollider(Collider* collider, Vector2 localPos /* = VEC2_ZERO */) {

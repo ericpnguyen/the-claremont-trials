@@ -1,3 +1,5 @@
+// Used to decide switching between main menu and play screen
+
 #include "ScreenManager.hpp"
 #include "StartScreen.hpp"
 
@@ -9,15 +11,12 @@ ScreenManager* ScreenManager::Instance() {
 		sInstance = new ScreenManager();
 	
 	return sInstance;
-	
 }
 
 void ScreenManager::Release() {
 	
 	delete sInstance;
 	sInstance = NULL;
-	
-	
 }
 
 ScreenManager::ScreenManager() {
@@ -37,7 +36,6 @@ ScreenManager::~ScreenManager() {
 	
 	mInput = NULL;
 	
-	
 	delete mStartScreen;
 	mStartScreen = NULL;
 	
@@ -48,9 +46,7 @@ ScreenManager::~ScreenManager() {
 	mPauseScreen = NULL;
 }
 
-
 void ScreenManager::Update() {
-	
 	
 	switch(mCurrentScreen) {
 			
@@ -58,10 +54,8 @@ void ScreenManager::Update() {
 			mStartScreen->Update();
 
 			if(mInput->KeyPressed(SDL_SCANCODE_RETURN) && mStartScreen->SelectedMode() == 0) {
-				mAudio->PauseMusic();
 				mCurrentScreen = play;
 				mPlayScreen->StartNewGame();
-				
 			}
 
 			if(mInput->KeyPressed(SDL_SCANCODE_RETURN) && mStartScreen->SelectedMode() == 1) {
@@ -69,12 +63,11 @@ void ScreenManager::Update() {
 			}
 
 			break;
-			
 		case play:
 			mPlayScreen->Update();
+
 			if(mPlayScreen->GameOver()) {
-				
-				mCurrentScreen = start;
+				exit(1);
 			}
 			else if(mInput->KeyPressed(SDL_SCANCODE_P)){
 				mCurrentScreen = pause;
@@ -89,22 +82,18 @@ void ScreenManager::Update() {
 			}
 
 			if(mInput->KeyPressed(SDL_SCANCODE_RETURN) && mPauseScreen->SelectedMode() == 1) {
-				mCurrentScreen = start;
+				exit(1);
 			}
 	}
-	
 }
 
 void ScreenManager::Render() {
 
-	
 	switch(mCurrentScreen) {
 			
 		case start:
-			
 			mStartScreen->Render();
 			break;
-			
 		case play:
 			mPlayScreen->Render();			
 			break;
@@ -112,5 +101,4 @@ void ScreenManager::Render() {
 			mPauseScreen->Render();
 			break;
 	}
-	
 }

@@ -18,15 +18,20 @@ private:
 	Texture* mTexture;
 
 public:
-	Bullet();
+	Bullet(bool friendly);
 	~Bullet();
 
 	void Fire(Vector2 pos);
 	void Reload();
 
-	void Update();
+	void Hit(PhysEntity* other) override;
 
-	void Render();
+	void Update() override;
+
+	void Render() override;
+
+private:
+	bool IgnoreCollisions() override;
 };
 
 #endif 

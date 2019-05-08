@@ -1,3 +1,8 @@
+/*
+** Code by Ather Omar
+**
+*/
+
 #include "PhysicsManager.hpp"
 
 PhysicsManager* PhysicsManager::sInstance = nullptr;
@@ -60,7 +65,8 @@ void PhysicsManager::Update() {
 				for(unsigned int k = 0; k < mCollisionLayers[i].size(); k++) {
 					for(unsigned int l = 0; l < mCollisionLayers[j].size(); l++) {
 						if(mCollisionLayers[i][k]->CheckCollision(mCollisionLayers[j][l])) {
-							
+							mCollisionLayers[i][k]->Hit(mCollisionLayers[j][l]);
+							mCollisionLayers[j][l]->Hit(mCollisionLayers[i][k]);
 						}
 					}
 				}

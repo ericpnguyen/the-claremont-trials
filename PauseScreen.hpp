@@ -16,7 +16,6 @@ namespace QuickSDL {
 
 		// Top Bar Entities
 		GameEntity* mTopBar;
-		Texture* mHiScore;
 
 		// Logo Entity
 		Texture* mLogo;
@@ -27,6 +26,7 @@ namespace QuickSDL {
 		Texture* mResumeGame;
 		Texture* mCursor;
 		Texture* mExitGame;
+		Texture* mPauseHelp;
 		Vector2 mCursorStartPos;
 		Vector2 mCursorOffset;
 

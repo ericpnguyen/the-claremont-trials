@@ -1,3 +1,5 @@
+// Main menu
+
 #ifndef _STARTSCREEN_H
 #define _STARTSCREEN_H
 
@@ -14,10 +16,6 @@ namespace QuickSDL {
 		Timer* mTimer;
 		InputManager* mInput;
 
-		// Top Bar Entities
-		GameEntity* mTopBar;
-		Texture* mHiScore;
-
 		// Logo Entity
 		Texture* mLogo;
 
@@ -33,7 +31,6 @@ namespace QuickSDL {
 	public:
 		StartScreen();
 		~StartScreen();
-
 
 		int SelectedMode();
 

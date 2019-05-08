@@ -1,23 +1,19 @@
+// Used to set up our only level
+
 #include "Level.hpp"
 
 Level::Level(int stage, Player* player) {
 	
 	mTimer = Timer::Instance();
 
-	
+	// Set stage variables
 	mStage = stage;
-	
 	mStageStarted = false;
-	
 	mLabelTimer = 0.0f;
-	
-	// mStageLabel = new Texture("STAGE", "emulogic.ttf", 32, { 75, 75, 200 });
-	// mStageLabel->Parent(this);
-	// mStageLabel->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH * 0.35f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
-	
 	mStageLabelOnScreen = 0.0f;
 	mStageLabelOffScreen = 1.5f;
-	
+
+	// Ready label
 	mReadyLabel = new Texture("READY?", "emulogic.ttf", 32, { 150, 0, 0 });
 	mReadyLabel->Parent(this);
 	mReadyLabel->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
@@ -25,23 +21,14 @@ Level::Level(int stage, Player* player) {
 	mReadyLabelOnScreen = mStageLabelOffScreen;
 	mReadyLabelOffScreen = mReadyLabelOnScreen + 1.0f;
 	
+	// Player
 	mPlayer = player;
-	mPlayerHit = false;
-	mPlayerRespawnDelay = 3.0f;
-	mPlayerRespawnTimer = 0.0f;
-	mPlayerRespawnLabelOnScreen = 2.0f;
-	
+
+	// Game over label
 	mGameOverLabel = new Texture("GAME OVER", "emulogic.ttf", 32, {150, 0, 0 });
 	mGameOverLabel->Parent(this);
 	mGameOverLabel->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.5f));
 	
-	mGameOver = false;
-	mGameOverDelay = 6.0f;
-	mGameOverTimer = 0.0f;
-	mGameOverLabelOnScreen = 1.0f;
-	
-	mCurrentState = running;
-
 	// Cloud background
 	mBackground = new Texture("background.png");
 	mBackground->Parent(this);	
@@ -50,6 +37,8 @@ Level::Level(int stage, Player* player) {
 	// Enemy
 	mEnemyCount = 0;
 
+	// XML enemy spawning
+
 	std::string fullPath = SDL_GetBasePath();
 	fullPath.append("Enemy.xml");
 	mSpawningPatterns.LoadFile(fullPath.c_str());
@@ -57,33 +46,30 @@ Level::Level(int stage, Player* player) {
 	mCurrentPriority = 0;
 	mCurrentIndex = 0;
 	mSpawningFinished = false;
-	mSpawnDelay = 2.0f;
+	mSpawnDelay = 0.3f;
 	mSpawnTimer = 0.0f;
+
+	Enemy::CurrentPlayer(mPlayer);
 }
 
 Level::~Level(){
 	
 	mTimer = NULL;
-	
-	// delete mStageLabel;
-	// mStageLabel = NULL;
-	
-	delete mReadyLabel;
-	mReadyLabel = NULL;
-	
 	mPlayer = NULL;
 	
+	// Ready label
+	delete mReadyLabel;
+	mReadyLabel = NULL;
+		
+	// GameOverLabel
 	delete mGameOverLabel;
 	mGameOverLabel = NULL;
 
 	// Background
 	delete mBackground;
 	mBackground = NULL;
-	
-	// Enemy
-	// delete mEnemy;
-	// mEnemy = NULL;
-	
+
+	// Enemies
 	for(int i = 0; i < mEnemies.size(); i++) {
 		
 		delete mEnemies[i];
@@ -95,79 +81,12 @@ Level::~Level(){
 void Level::StartStage() {
 
 	mStageStarted = true;
+	mPlayer->Active(true);
+	mPlayer->Visible(true);
 }
 
-void Level::HandleStartLabels() {
-	
-	
-	mLabelTimer += mTimer->DeltaTime();
-	if(mLabelTimer >= mStageLabelOffScreen) {
-				
-		if(mStage > 1) {
-			
-			StartStage();
-		} else {
-			if(mLabelTimer >= mReadyLabelOffScreen) {
-				
-				StartStage();
-				mPlayer->Active(true);
-				mPlayer->Visible(true);
-			}
-		}
-	}
-
-	
-	
-}
-
-
-void Level::HandleCollisions() {
-	
-	if(!mPlayerHit) {
-		
-		if(InputManager::Instance()->KeyPressed(SDL_SCANCODE_X)) {
-			
-			// mPlayer->WasHit();
-			
-			mPlayerHit = true;
-			mPlayerRespawnTimer = 0.0f;
-			mPlayer->Active(false);
-		}
-	}
-}
-
-void Level::HandlePlayerDeath() {
-	
-	if(!mPlayer->IsAnimating()) {
-		
-		if(mPlayer->Lives() > 0) {
-			
-			if(mPlayerRespawnTimer == 0.0f)
-				mPlayer->Visible(false);
-			
-			mPlayerRespawnTimer += mTimer->DeltaTime();
-			if(mPlayerRespawnTimer >= mPlayerRespawnDelay) {
-				
-				mPlayer->Active(true);
-				mPlayer->Visible(true);
-				mPlayerHit = false;
-			}
-			
-		} else {
-			
-			if(mGameOverTimer == 0.0f)
-				mPlayer->Visible(false);
-			
-			mGameOverTimer += mTimer->DeltaTime();
-			if(mGameOverTimer >= mGameOverDelay) {
-				
-				mCurrentState = gameover;
-			}
-		}
-	}
-}
-
-
+// Use XML file to spawn enemies one at a time
+// Search for children and spawn based on priority attribute 
 void Level::HandleEnemySpawning() {
 
 	mSpawnTimer += mTimer->DeltaTime();
@@ -201,12 +120,14 @@ void Level::HandleEnemySpawning() {
 					spawned = true;
 				}
 			}
-		element = element->NextSiblingElement();
+
+			element = element->NextSiblingElement();
 		}
 
 		if(!priorityFound) {
 			mSpawningFinished = true;
 		}
+
 		else {
 			if(!spawned) {
 				mCurrentPriority++;
@@ -216,77 +137,48 @@ void Level::HandleEnemySpawning() {
 				mCurrentIndex++;
 			}
 		}
+
 		mSpawnTimer = 0.0f;
 	}
 }
 
-Level::LEVEL_STATES Level::State() {
-	
-	return mCurrentState;
-}
-
+// Initialize level and spawn enemies when necessary
 void Level::Update() {
 	
 	if(!mStageStarted) {
 		
-		HandleStartLabels();
-		
-	} else {
+		StartStage();	
+	} 
+	else {
 		
 		if(!mSpawningFinished)
 			HandleEnemySpawning();
 
-		// Enemy
+		// Enemy updates
 		for (int i = 0; i < mEnemies.size(); i++)
 			mEnemies[i]->Update();
-		
-		HandleCollisions();
-		
-		if(mPlayerHit) {
-			HandlePlayerDeath();
-		} else {
-			
-			if(InputManager::Instance()->KeyPressed(SDL_SCANCODE_N)) {
-				
-				mCurrentState = finished;
-			}
-		}
 	}
 }
 
 void Level::Render() {
-	
-	
-	if(!mStageStarted) {
-		
-		if(mLabelTimer > mStageLabelOnScreen && mLabelTimer < mStageLabelOffScreen) {
-			
-			// mStageLabel->Render();
-			mReadyLabel->Render();
-			
-		} else if(mLabelTimer > mReadyLabelOnScreen && mLabelTimer < mReadyLabelOffScreen) {
-			
-			// mReadyLabel->Render();
-			
-		}
-	} else {
 
-		// Enemy
+	// Show ready label
+
+	if(!mStageStarted) {
+
+		if(mLabelTimer > mStageLabelOnScreen && mLabelTimer < mStageLabelOffScreen) {			
+			mReadyLabel->Render();
+		}
+	} 
+	else {
+
+		// Background, enemy, and game over label
 		mBackground->Render();
 		for (int i = 0; i < mEnemies.size(); i++)
 			mEnemies[i]->Render();
 		
-		// for (int i = 0; i < mEnemies.size(); i++ )
-		// 	mEnemies[i]->Render();
-		
-		if(mPlayerHit) {
-			
-			if(mPlayerRespawnTimer >= mPlayerRespawnLabelOnScreen)
-				mReadyLabel->Render();
-			
-			if(mGameOverTimer >= mGameOverLabelOnScreen)
-				mGameOverLabel->Render();
+		if(mEnemies.size() == 50) {
+			mGameOverLabel->Render();
 		}
-		
 	}
 }

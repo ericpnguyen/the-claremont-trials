@@ -1,11 +1,14 @@
 #include "Bullet.hpp"
 #include "BoxCollider.hpp"
+#include "PhysicsManager.hpp"
 
-Bullet::Bullet() {
+Bullet::Bullet(bool friendly) {
 
 	mTimer = Timer::Instance();
 
-	mSpeed = 500.0f;
+	mSpeed = 1000.0f;
+
+	// Texture
 
 	mTexture = new Texture("bullet3.png");
 	mTexture->Parent(this);
@@ -14,6 +17,11 @@ Bullet::Bullet() {
 	Reload();
 
 	AddCollider(new BoxCollider(mTexture->ScaledDimensions()));
+
+	if(friendly)
+		PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::FriendlyProjectiles);
+	else
+		PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::HostileProjectiles);
 }
 
 Bullet::~Bullet() {
@@ -35,8 +43,17 @@ void Bullet::Reload() {
 	Active(false);
 }
 
+void Bullet::Hit(PhysEntity* other) {
+	Reload();
+}
+
+bool Bullet::IgnoreCollisions() {
+	return !Active();
+}
+
 void Bullet::Update() {
 
+	// Move bullet up and get rid of it if it's offscreen
 	if (Active()) {
 		Translate(-VEC2_UP * mSpeed * mTimer->DeltaTime(), local);
 

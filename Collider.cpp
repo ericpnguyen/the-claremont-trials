@@ -1,23 +1,14 @@
+// Abstract class for physic colliders circle and box
+
 #include "Collider.hpp"
 
 Collider::Collider(ColliderType type)
 	: mType(type)
 {
-	mDebugTexture = nullptr;
 }
 
 Collider::~Collider() 
 {
-	if(mDebugTexture) {
-		delete mDebugTexture;
-		mDebugTexture = nullptr;
-	}
-}
-
-void Collider::SetDebugTexture(Texture* texture) {
-	delete mDebugTexture;
-	mDebugTexture = texture;
-	mDebugTexture->Parent(this);
 }
 
 Collider::ColliderType Collider::GetType() {
@@ -25,7 +16,4 @@ Collider::ColliderType Collider::GetType() {
 }
 
 void Collider::Render() {
-	if(DEBUG_COLLIDERS) {
-		mDebugTexture->Render();
-	}
 }

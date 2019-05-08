@@ -1,3 +1,5 @@
+// Used to decide switching between main menu and play screen
+
 #ifndef ScreenManager_h
 #define ScreenManager_h
 #include "StartScreen.hpp"
@@ -6,7 +8,6 @@
 #include "PauseScreen.hpp"
 
 class ScreenManager {
-	
 	
 private:
 	
@@ -23,10 +24,7 @@ private:
 
 	SCREENS mCurrentScreen;
 	
-	
-	
 public:
-	
 	
 	static ScreenManager* Instance();
 	static void Release();
@@ -34,15 +32,9 @@ public:
 	void Update();
 	void Render();
 	
-	
 private:
 	
 	ScreenManager();
 	~ScreenManager();
-	
-	
-	
 };
-
-
 #endif 

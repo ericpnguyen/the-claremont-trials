@@ -7,11 +7,6 @@ BoxCollider::BoxCollider(Vector2 size)
 	AddVert(1, Vector2( 0.5f*size.x, -0.5f*size.y));
 	AddVert(2, Vector2(-0.5f*size.x,  0.5f*size.y));
 	AddVert(3, Vector2( 0.5f*size.x,  0.5f*size.y));
-
-	if(DEBUG_COLLIDERS) {
-		SetDebugTexture(new Texture("box.png"));
-		mDebugTexture->Scale(size / 100.0f);
-	}
 }
 
 BoxCollider::~BoxCollider() {
@@ -21,6 +16,7 @@ BoxCollider::~BoxCollider() {
 	}
 }
 
+// Get furthest point on collider
 Vector2 BoxCollider::GetFurthestPoint() {
 	Vector2 localPos = Pos(GameEntity::local);
 

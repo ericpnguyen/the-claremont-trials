@@ -1,18 +1,9 @@
 #include "CircleCollider.hpp"
 
-CircleCollider::CircleCollider(float radius, bool broadPhase /* = false */)
+CircleCollider::CircleCollider(float radius, bool broadPhase)
 	: Collider(ColliderType::Circle)
 {
 	mRadius = radius;
-
-	if(DEBUG_COLLIDERS) {
-		if(broadPhase)
-			SetDebugTexture(new Texture("player.png"));
-		else
-			SetDebugTexture(new Texture("player.png"));
-
-		mDebugTexture->Scale(VEC2_ONE * (radius * 2 / 100.0f));
-	}
 }
 
 CircleCollider::~CircleCollider() {

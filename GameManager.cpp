@@ -52,6 +52,13 @@ namespace QuickSDL {
 		//Initialize Timer
 		mTimer = Timer::Instance();
 
+		//Choosing which colliders harm which ones
+		mPhysMgr = PhysicsManager::Instance();
+		mPhysMgr->SetLayerCollisionMask(PhysicsManager::CollisionLayers::Friendly, PhysicsManager::CollisionFlags::Hostile | PhysicsManager::CollisionFlags::HostileProjectiles);
+		mPhysMgr->SetLayerCollisionMask(PhysicsManager::CollisionLayers::FriendlyProjectiles, PhysicsManager::CollisionFlags::Hostile);
+		mPhysMgr->SetLayerCollisionMask(PhysicsManager::CollisionLayers::Hostile, PhysicsManager::CollisionFlags::Friendly | PhysicsManager::CollisionFlags::FriendlyProjectiles);
+		mPhysMgr->SetLayerCollisionMask(PhysicsManager::CollisionLayers::HostileProjectiles, PhysicsManager::CollisionFlags::Friendly);
+
 		//Initialize Screen
 		mScreenMgr= ScreenManager::Instance();
 
@@ -63,6 +70,9 @@ namespace QuickSDL {
 
 		ScreenManager::Release();
 		mScreenMgr = NULL;
+
+		PhysicsManager::Release();
+		mPhysMgr = nullptr;
 
 		AudioManager::Release();
 		mAudioMgr = NULL;
@@ -91,14 +101,12 @@ namespace QuickSDL {
 
 		//GameEntity Updates should happen here
 		mScreenMgr->Update();
-
-
 	}
 
 	void GameManager::LateUpdate() {
 
 		//Any collision detection should happen here
-
+		mPhysMgr->Update();
 		mInputMgr->UpdatePrevInput();
 		mTimer->Reset();
 	}
