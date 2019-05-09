@@ -41,13 +41,23 @@ The following is a youtube link to our project:
 
 - TODO
 
-### Satisfaction of Programming Requirements Mentioned in Section 1
+### Satisfaction of Programming Requirements Mentioned in Section 1:
 
 #### 1. Polymorphism
+Our code implements polymorphism for multiple classes. The game utilizes the class "Game Entity" to implement the other classes such as Bullet, Player, and Texture. Each class uses GameEntity and relies on its methods as well. This was ciritcal when creating our other classes.
 #### 2. At least 2 design patterns
-#### 3. File I/O
-#### 4. Operator overloading
-#### 5. Memory management 
-#### 6. Good programming style
+The two design patterns implemented in this game were:
+- The Singleton Design Patter: This is implemented in our "Graphics" class. We implement the singleton pattern becasue we only needed one instance of the class which held the dimensions for the window and the back buffer. This allowed us to use Graphics anytime we needed to interact or add something to the screen. 
 
+- The Factory Pattern: We used the Factor pattern in our Texture class. The Texture class acted as the parent class to the AnimatedTexture class which was used for the moving elements of the game like the Player, Assignments and Bullets.
+#### 3. File I/O
+In terms of file input and output, our game stores a players individual high score and outputs the number at the top of the game. Each game, the player starts with a base score of 200( to be interpreted as 2.0). The maximum score a player can recieve is a 400, or a 4.0, which represents the highest GPA one can recieve. 
+#### 4. Operator overloading
+In our Player, Bullet, and Enemy classes we ovverride the GameEntity classes Render and Update fucntions. 
+
+#### 5. Memory management 
+Every class contains a constructor and a destructor in order to properly manage the memory allocations for each element of the game. 
+#### 6. Good programming style
+Our team focused on implementing coding skills taught in class to maintain good coding style and practice. Additionally, all code has been properly formmatted and commented to ensure readability. 
 ### Additional Information 
+Each student brought their own style and ability to the making of this game. Breif recognition to Ryan cullen who indicidually created all of the sprites to make the game unique! 
