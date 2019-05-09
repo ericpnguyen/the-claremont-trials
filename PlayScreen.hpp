@@ -30,7 +30,7 @@ private:
 	GameEntity* mTopBar;
 
 	// Ground strip
-	Texture* mGroundStrip;
+	// Texture* mGroundStrip;
 
 	// Ready label
 	Texture* mReadyLabel;

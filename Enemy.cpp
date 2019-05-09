@@ -182,7 +182,7 @@ void Enemy::CreatePaths() {
 Enemy::Enemy(int path)
 {
     // Hw assignment moves
-    mSpeed = 400.0f; 
+    mSpeed = 600.0f; 
     mMoveBounds = Vector2(0.0f, 800.0f);
 
     mTimer = Timer::Instance();

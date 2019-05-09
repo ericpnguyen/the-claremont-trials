@@ -21,11 +21,6 @@ PlayScreen::PlayScreen() {
 	mTopScoreLabel->Parent(mTopBar);
 	mTopScoreLabel->Pos(Vector2(-30.0f, -50.0f));
 
-	// Ground strip
-	mGroundStrip = new Texture("groundstrip.png");
-	mGroundStrip->Parent(this);
-	mGroundStrip->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH * 0.5f, Graphics::Instance()->SCREEN_HEIGHT * 0.83f));
-
 	// Ready label
 	mReadyLabel = new Texture("READY?", "emulogic.ttf", 32, { 150, 0, 0 });
 	mReadyLabel->Parent(this);
@@ -74,10 +69,6 @@ PlayScreen::~PlayScreen() {
 	delete mLevel;
 	mLevel = NULL;
 
-	// Ground strip
-	delete mGroundStrip;
-	mGroundStrip = NULL;
-
 	// Ready Label
 	delete mReadyLabel;
 	mReadyLabel = NULL;
@@ -102,7 +93,7 @@ void PlayScreen::StartNewGame() {
 	delete mPlayer;
 	mPlayer = new Player();
 	mPlayer->Parent(this);
-	mPlayer->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH * 0.1f, Graphics::Instance()->SCREEN_HEIGHT * 0.68f));
+	mPlayer->Pos(Vector2(Graphics::Instance()->SCREEN_WIDTH * 0.1f, Graphics::Instance()->SCREEN_HEIGHT * 0.73f));
 	mPlayer->Active(false);
 	mGameStarted = true;
 	mLevelStarted = false;
@@ -185,7 +176,6 @@ void PlayScreen::Render() {
 		if(mLevelStarted)
 
 			mLevel->Render();
-			mGroundStrip->Render();
 
 			if(mLevelStartTimer > 0.0f && mLevelStartTimer < 1.5f) {
 
