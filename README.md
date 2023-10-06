@@ -1,4 +1,4 @@
-# TheClaremontTrials - Final Project
+# The Claremont Trials - Final Project
 
 ## CSCI 56 Object Oriented Game Development, Spring 2019
 
@@ -35,11 +35,6 @@ Replace /Library/Frameworks with the path to your frameworks if your frameworks 
 
 ### Acknowledgment of Outside Sources
 We acknowledge Ather Omar's SDL 2.0 Tutorial series on YouTube. All code provided by Omar has been commented as so. 
-
-### YouTube link
-The following is a youtube link to our project:
-
-- TODO
 
 ### Satisfaction of Programming Requirements Mentioned in Section 1:
 
